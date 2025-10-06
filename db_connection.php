@@ -11,4 +11,5 @@ try {
 	echo "Connection failed: ". $e->getMessage();
 	exit;
 }
+include 'inc/bootstrap.php';
 ?>

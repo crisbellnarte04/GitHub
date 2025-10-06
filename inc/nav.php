@@ -15,7 +15,7 @@
 						<i class="fa fa-tachometer" aria-hidden="true"></i>
 						<span>Dashboard</span>
 					</li>
-				</a> hjfhjg
+				</a> 
 				<li>
 					<a href="profile.php">
 						<i class="fa fa-user" aria-hidden="true"></i>

@@ -4,6 +4,7 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "
     include "db_connection.php";
     include "app/Model/Task.php";
     include "app/Model/User.php";
+    include "inc/bootstrap.php";
     $today = date('Y-m-d');
 
     $stmt = $conn->prepare("SELECT * FROM `tasks` WHERE `due_date` = :today");
@@ -144,14 +145,13 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "
 
                                                                     break;
 
-                                                                case 'ongoing':
+                                                                case 'in_progress':
                                                                     $badgeClass = 'bg-primary';
 
                                                                     break;
 
                                                                 case 'completed':
                                                                     $badgeClass = 'bg-success';
-                                                                    $status = 'delivering';
                                                                     break;
 
                                                                 default:
@@ -416,7 +416,9 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "
     </body>
 
     </html>
-<?php } else {
+<?php
+    include "inc/imports.php";
+ } else {
     $em = "First login";
     header("Location: login.php?error=$em");
     exit();

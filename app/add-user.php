@@ -15,6 +15,7 @@ if (isset($_POST['user_name']) && isset($_POST['password']) && isset($_POST['ful
 	$user_name = validate_input($_POST['user_name']);
 	$password = validate_input($_POST['password']);
 	$full_name = validate_input($_POST['full_name']);
+	$role = validate_input($_POST['role']);
 
 	if (empty($user_name)) {
 		$em = "User name is required";
@@ -33,7 +34,7 @@ if (isset($_POST['user_name']) && isset($_POST['password']) && isset($_POST['ful
        include "Model/User.php";
        $password = password_hash($password, PASSWORD_DEFAULT);
 
-       $data = array($full_name, $user_name, $password, "employee");
+       $data = array($full_name, $user_name, $password, $role);
        insert_user($conn, $data);
 
        $em = "User created successfully";

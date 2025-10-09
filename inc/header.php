@@ -1,3 +1,5 @@
+  <link rel="stylesheet" type="text/css" href=" bootstrap/bootstrap.min.css">
+
 <header class="header">
 	<h2 class="u-name">RB LIRIO <b>MEDICAL CLINIC</b>
 		<label for="checkbox">

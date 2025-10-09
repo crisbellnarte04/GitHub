@@ -1,12 +1,13 @@
 <?php
 session_start();
 include "db_connection.php";
+include "inc/bootstrap.php";
 
-// Optional: initialize to avoid PHP notices
-$username = $full_name = '';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,9 +17,10 @@ $username = $full_name = '';
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family:'Times New Roman', serif;
+            font-family: 'Times New Roman', serif;
         }
-        body{
+
+        body {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -26,25 +28,31 @@ $username = $full_name = '';
             background: url("img/rblirio.jpg") center/cover no-repeat;
             color: black;
         }
-        .container{
+
+        .container {
             margin: 0 15px;
         }
+
         .form-box {
             width: 100%;
-            max-width: 450px;
+            max-width: 700px;
             padding: 30px;
             background: transparent;
             border-radius: 10px;
         }
+
         .form-box.active {
             display: block;
         }
+
         h2 {
             font-size: 34px;
             text-align: center;
             margin-bottom: 20px;
         }
-        input, select {
+
+        input,
+        select {
             width: 100%;
             padding: 12px;
             background: #eee;
@@ -55,6 +63,7 @@ $username = $full_name = '';
             color: #333;
             margin-bottom: 20px;
         }
+
         button {
             width: 100%;
             padding: 12px;
@@ -68,62 +77,165 @@ $username = $full_name = '';
             margin-top: 20px;
             transition: 0.5s;
         }
+
         button:hover {
             background: #6884d3;
         }
+
         p {
             font-size: 14.5px;
             text-align: center;
             margin-bottom: 10px;
         }
+
         p a {
             color: #7494ec;
             text-decoration: none;
         }
+
         p a:hover {
             text-decoration: underline;
         }
+
         footer {
-             position: fixed;
-             bottom: 0;
-             left: 0;
-             width: 100%;
-             background: rgba(0, 0, 0, 0.7);
-             color: white;
-             text-align: center;
-             padding: 10px 0;
-             font-size: 14px;
-             z-index: 999;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 14px;
+            z-index: 999;
         }
     </style>
 </head>
+
 <body>
 
-<div class="form-box">
-    <h2>Register</h2>
-    <form action="register.php" method="POST">
-        <label>Full Name:</label>
-        <input type="text" name="full_name" required value="<?= htmlspecialchars($full_name ?? '') ?>">
+    <div class="form-box">
+        <h2>Register</h2>
+        <form class="row g-3" id="signUpform">
+            <div class="col-md-6">
+                <label for="first" class="form-label text-capitalize">first name:</label>
+                <input name="first" class="form-control" id="first" type="text" required>
+            </div>
+            <div class="col-md-6">
+                <label for="middle" class="form-label text-capitalize">Middle name:</label>
+                <input name="middle" class="form-control" id="middle" type="text">
+            </div>
+            <div class="col-md-6">
+                <label for="last" class="form-label text-capitalize">last name:</label>
+                <input name="last" class="form-control" id="last" type="text" required>
+            </div>
+            <div class="col-md-6">
+                <label for="fname" class="form-label text-capitalize">suffix:</label>
+                <select class="form-select" name="suffix">
+                    <option selected disabled>Select Suffix</option>
+                    <option value="Jr.">Jr.</option>
+                    <option value="Sr.">Sr.</option>
+                    <option value="I">I</option>
+                    <option value="II">II</option>
+                    <option value="III">III</option>
+                    <option value="IV">IV</option>
+                </select>
+            </div>
 
-        <label>Username:</label>
-        <input type="text" name="username" required value="<?= htmlspecialchars($username ?? '') ?>">
+            <div class="col-md-12">
+                <label for="username" class="form-label text-capitalize">username:</label>
+                <input name="username" class="form-control" id="username" type="text" required>
+            </div>
+            <div class="col-md-12">
+                <label for="validationServer02" class="form-label">Password<sup class="text-danger">*</sup>:</label>
+                <input type="text" class="form-control" id="validationServers01" name="pass1" required placeholder="Enter the account password " minlength="8" maxlength="21" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                <div class="invalid-feedback">
+                    Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters
+                </div>
+            </div>
+            <div class="col-md-12">
+                <label for="validationServer02" class="form-label">Re-enter Password<sup class="text-danger">*</sup>:</label>
+                <input type="text" class="form-control" id="validationServers02" name="pass2" required placeholder="Enter the Unique Password" minlength="8" maxlength="21" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                <div class="invalid-feedback">
 
-        <label>Password:</label>
-        <input type="password" name="password" required>
+                    Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters
+                </div>
 
-        <label>Repeat Password:</label>
-        <input type="password" name="confirm_password" required>
+            </div>
 
-        <input type="hidden" name="role" value="user">
+            <input type="hidden" name="role" value="user">
 
-        <button type="submit" name="signup">Sign Up</button>
-        <p>Already have an account?<a href="login.php"> Log In</a></p>
-    </form>
-</div>
+            <button type="submit" name="signup">Sign Up</button>
+            <p>Already have an account?<a href="login.php"> Log In</a></p>
+        </form>
+    </div>
 
-<footer>
-    <p>© 2025 RB Lirio Medical & Diagnostic Clinic. All Rights Reserved.</p>
-</footer>
+    <footer>
+        <p>© 2025 RB Lirio Medical & Diagnostic Clinic. All Rights Reserved.</p>
+    </footer>
 
 </body>
+<?php
+include "inc/imports.php";
+?>
+<script>
+  
+    $(document).on('submit', '#signUpform', function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        formData.append("signup", true);
+        $.ajax({
+            url: "app/registration.php",
+            type: "post",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                var res = jQuery.parseJSON(data);
+                if (res.status == 401) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Something Went Wrong.',
+                        text: res.msg,
+                        timer: 10000
+                    })
+                } else if (res.status == 201) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'SUCCESS',
+                        text: res.msg,
+                        timer: 2000
+                    }).then(function() {
+                        location.reload();
+                    });
+                }
+            }
+
+        });
+
+    });
+
+    function togglePasswordVisibility1() {
+        var passwordInput1 = document.getElementById("validationServers01");
+        var showPasswordCheckbox1 = document.getElementById("pass1");
+
+        if (showPasswordCheckbox1.checked) {
+            passwordInput1.type = "text";
+        } else {
+            passwordInput1.type = "password";
+        }
+    }
+
+    function togglePasswordVisibility2() {
+        var passwordInput2 = document.getElementById("validationServers02");
+        var showPasswordCheckbox2 = document.getElementById("pass2");
+
+        if (showPasswordCheckbox2.checked) {
+            passwordInput2.type = "text";
+        } else {
+            passwordInput2.type = "password";
+        }
+    }
+</script>
+
 </html>

@@ -44,6 +44,15 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "
 					<lable>Password</lable>
 					<input type="text" name="password" class="input-1" placeholder="Password"><br>
 				</div>
+				<div class="input-holder">
+				<select name="role" id="role" class="form-select">
+					<option selected disabled>Select Role</option>
+					<option value="Admin">Admin</option>
+					<option value="Employee">Employee</option>
+					<option value="Doctor">Doctor</option>
+				</select>
+				<br>
+				</div>
 
 				<button class="edit-btn">Add</button>
 			</form>

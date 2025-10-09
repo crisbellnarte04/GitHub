@@ -15,6 +15,8 @@ session_start();
       <div class="logo">RB Lirio Medical & Diagnostic Clinic</div>
       <ul class="nav-links">
         <li><a href="index.php">Home</a></li>
+        <li><a href="user_appointment.php">My Appointment</a></li>
+        
         <li><a href="about.php">About</a></li>
         <li><a href="services.php" class="active">Services</a></li>
         <li><a href="packages.php">Packages</a></li>

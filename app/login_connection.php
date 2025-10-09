@@ -1,18 +1,19 @@
-<?php 
+<?php
 session_start();
 if (isset($_POST['user_name']) && isset($_POST['password'])) {
 	include "../db_connection.php";
 
-    function validate_input($data) {
-	  return htmlspecialchars(stripslashes(trim($data)));
+	function validate_input($data)
+	{
+		return htmlspecialchars(stripslashes(trim($data)));
 	}
 
 	$user_name = validate_input($_POST['user_name']);
 	$password = validate_input($_POST['password']);
 
 	if (empty($user_name) || empty($password)) {
-	    header("Location: login.php?error=Username and Password required");
-	    exit();
+		header("Location: login.php?error=Username and Password required");
+		exit();
 	}
 
 	$sql = "SELECT * FROM users WHERE username = ?";
@@ -29,8 +30,12 @@ if (isset($_POST['user_name']) && isset($_POST['password'])) {
 			// Redirect based on role
 			if ($user['role'] === "admin") {
 				header("Location: ../index.php");
-			} else {
+			} else if ($user['role'] === "employee") {
 				header("Location: ../index.php");
+			} else if ($user['role'] === "doctor") {
+				header("Location: ../mainpage_doc.php");
+			} else {
+				header("Location: ../mainpage.php");
 			}
 			exit();
 		}

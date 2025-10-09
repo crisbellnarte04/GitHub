@@ -47,9 +47,9 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "
 				<div class="input-holder">
 				<select name="role" id="role" class="form-select">
 					<option selected disabled>Select Role</option>
-					<option value="Admin">Admin</option>
-					<option value="Employee">Employee</option>
-					<option value="Doctor">Doctor</option>
+					<option value="admin">Admin</option>
+					<option value="employee">Employee</option>
+					<option value="doctor">Doctor</option>
 				</select>
 				<br>
 				</div>

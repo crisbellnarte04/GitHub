@@ -48,7 +48,7 @@ if (isset($_SESSION['role']) && isset($_SESSION['id'])) {
 
 									break;
 
-								case 'ongoing':
+								case 'in_progress':
 									$badgeClass = 'bg-primary';
 
 									break;

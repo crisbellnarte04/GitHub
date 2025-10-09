@@ -1,7 +1,10 @@
 <?php
+session_start();
 include "db_connection.php";
 include "inc/bootstrap.php";
-
+$time = strtotime("+5 days", time());
+$date = date("Y-m-d", $time);
+$user_id = $_SESSION["id"];
 // This block is used ONLY if called with AJAX to get availability JSON.
 if (isset($_GET['doctor_id'])) {
   $doctor_id = $_GET['doctor_id'];
@@ -76,9 +79,10 @@ if (isset($_GET['doctor_id'])) {
 </head>
 
 <body>
+
   <div class="container">
     <h2>Book an Appointment</h2>
-    <form action="submit_appointment.php" method="POST" id="bookingForm" class="row g-3">
+    <form id="bookingForm" class="row g-3">
       <div class="col-md-6">
         <label for="first" class="form-label text-capitalize">first name:</label>
         <input name="first" class="form-control" id="first" type="text" required>
@@ -114,7 +118,7 @@ if (isset($_GET['doctor_id'])) {
         <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required />
 
       </div>
-      <div class="col-md-6">
+      <div class="col-md-4">
         <label for="gender">Gender</label>
         <select id="gender" name="gender" required>
           <option value="">-- Select Gender --</option>
@@ -123,36 +127,106 @@ if (isset($_GET['doctor_id'])) {
         </select>
       </div>
 
-      <div class="col-md-6">
-        <label for="doctor_id">Select Doctor</label>
-        <select id="doctor_id" name="doctor_id" required>
-          <option value="">-- Select Doctor --</option>
-          <?php
-          $stmt = $conn->query("SELECT id, full_name FROM doctors");
-          while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            echo "<option value='" . htmlspecialchars($row['id']) . "'>" . htmlspecialchars($row['full_name']) . "</option>";
-          }
-          ?>
-        </select>
-      </div>
 
-      <div class="col-md-6">
+
+      <div class="col-md-4">
         <label for="date_of_visit">Preferred Date</label>
-        <input type="date" id="date_of_visit" name="date_of_visit" required />
+        <input type="date" id="date" name="date" required min="<?php echo $date; ?>" />
 
       </div>
-      <div class="col-md-6">
-        <label for="time_of_visit">Available Time</label>
-        <select id="time_select" name="time_of_visit" required>
+      <div class="col-md-4">
+        <label for="time">Available Time</label>
+        <select id="time" name="time"  required>
           <option value="">Select valid date first</option>
         </select>
       </div>
+      <div class="col-md-12">
+        <label for="phone">Purpose of Appointment</label>
+        <input type="text" id="purpose" name="purpose" placeholder="Enter your purpose" required />
 
-      <button type="submit" class="btn">Submit Appointment</button>
+      </div>
+      <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+      <div class="card-footer">
+        <button type="submit" class="btn">Submit Appointment</button>
+        <a href="mainpage.php" type="button btn-secondary">
+          <button type="button" class="btn" style="background-color: gray;">Close</button>
+
+        </a>
+      </div>
     </form>
   </div>
 
-  <!-- jQuery for AJAX -->
+  <?php
+  include 'inc/imports.php'; ?>
+
+  <script>
+    $(document).on('submit', '#bookingForm', function(e) {
+      e.preventDefault();
+      var formData = new FormData(this);
+      formData.append("appoint", true);
+      $.ajax({
+        url: "app/appointment.php",
+        type: "post",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+          var res = jQuery.parseJSON(data);
+          if (res.status == 401) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Something Went Wrong.',
+              text: res.msg,
+              timer: 10000
+            })
+          } else if (res.status == 201) {
+            Swal.fire({
+              icon: 'success',
+              title: 'SUCCESS',
+              text: res.msg,
+              timer: 2000
+            }).then(function() {
+              location.reload();
+            });
+          }
+        }
+
+      });
+
+    });
+    const dateInput = document.getElementById('date');
+    const timeSelect = document.getElementById('time');
+
+    // Function to populate available times
+    function populateTimes() {
+      timeSelect.innerHTML = ''; // Clear previous options
+      for (let hour = 7; hour <= 17; hour++) {
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        const displayHour = hour % 12 === 0 ? 12 : hour % 12;
+        const option = document.createElement('option');
+        option.value = `${hour}:00`;
+        option.textContent = `${displayHour}:00 ${ampm}`;
+        timeSelect.appendChild(option);
+      }
+    }
+
+    // Listen for date change
+    dateInput.addEventListener('input', function() {
+      const selectedDate = new Date(this.value);
+      const day = selectedDate.getUTCDay(); // Sunday = 0
+
+      if (day === 0) {
+        alert('Sundays are not allowed. Please choose another date.');
+        this.value = '';
+        timeSelect.innerHTML = '<option value="">Select valid date first</option>';
+        timeSelect.disabled = true;
+      } else {
+        populateTimes();
+        timeSelect.disabled = false;
+      }
+    });
+  </script>
+  <!-- jQuery for AJAX
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     $(function() {
@@ -241,7 +315,7 @@ if (isset($_GET['doctor_id'])) {
         return slots;
       }
     });
-  </script>
+  </script> -->
 </body>
 
 </html>

@@ -68,11 +68,11 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "
 							';
 					} else if ($task['status'] == 'in_progress') {
 						echo '
-							<button class="btn-primary btn" name="update" type="submit">Done</button>
+							<button class="btn-primary btn" name="done" type="submit">Done</button>
 							';
 					} else {
 						echo '
-                                                                 <span class="badge rounded-pill text-bg bg-success p-2 text-capitalize" style="letter-spacing:1px; font-size:13px;">' . $status . '</span>
+                                                                 <span class="badge rounded-pill text-bg bg-success p-2 text-capitalize" style="letter-spacing:1px; font-size:13px;">' . $task['status'] . '</span>
 ';
 					}
 					?>

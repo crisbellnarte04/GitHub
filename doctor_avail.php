@@ -3,7 +3,7 @@ session_start();
 include "db_connection.php";
 
 // Access control: only admin
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'doctor') {
     header("Location: login.php");
     exit;
 }

@@ -8,7 +8,7 @@
 			<div class="user-p">
 				<img src="img/avatar.png">
 				<h4><?=$_SESSION['username']?></h4>
-				<span><?=$_SESSION['username']?></span>
+				<span style="color:white;"><?=$_SESSION['role']?></span>
 			</div>
 			
 			<?php 
@@ -115,6 +115,12 @@
 				<li>
 						<i class="fa fa-calendar" aria-hidden="true"></i>
 						<span>Appointments</span>
+					</li>
+				</a>
+				<a href="doc_availability.php">
+				<li>
+						<i class="fa fa-calendar" aria-hidden="true"></i>
+						<span>My Schedule</span>
 					</li>
 				</a>
 				<a href="logout.php">

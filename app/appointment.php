@@ -80,3 +80,77 @@ if (isset($_POST['done'])) {
 		exit;
 	}
 }
+if (isset($_POST['save'])) {
+
+	$user_id = $_POST["user_id"];
+	$time = $_POST["time"];
+	$date = $_POST["date"];
+
+
+	$sql = "INSERT INTO `doc_avail`( `d_id`, `date`, `time`) VALUES ('$user_id','$date', '$time')";
+	$result = mysqli_query($sqli, $sql);
+	if ($result) {
+		$res = [
+			'status' => 201,
+			'msg' => "Schedule Submitted successfully",
+		];
+		echo json_encode($res);
+		exit;
+	} else {
+		$res = [
+			'status' => 401,
+			'msg' => "Something went wrong",
+		];
+		echo json_encode($res);
+		exit;
+	}
+}
+if (isset($_POST['edit'])) {
+
+	$id = $_POST["id"];
+	$date = $_POST["date"];
+	$time = $_POST["time"];
+
+
+	$sql = "UPDATE `doc_avail` SET `date`='$date',`time`='$time' WHERE `id` ='$id'";
+	$result = mysqli_query($sqli, $sql);
+	if ($result) {
+		$res = [
+			'status' => 201,
+			'msg' => "Schedule Update successfully",
+		];
+		echo json_encode($res);
+		exit;
+	} else {
+		$res = [
+			'status' => 401,
+			'msg' => "Something went wrong",
+		];
+		echo json_encode($res);
+		exit;
+	}
+}
+if (isset($_POST['delete'])) {
+
+	$id = $_POST["id"];
+
+
+
+	$sql = "DELETE FROM `doc_avail` WHERE `id` ='$id'";
+	$result = mysqli_query($sqli, $sql);
+	if ($result) {
+		$res = [
+			'status' => 201,
+			'msg' => "Schedule Delete successfully",
+		];
+		echo json_encode($res);
+		exit;
+	} else {
+		$res = [
+			'status' => 401,
+			'msg' => "Something went wrong",
+		];
+		echo json_encode($res);
+		exit;
+	}
+}

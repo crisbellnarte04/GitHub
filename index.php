@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 
 // Check if user is logged in with role and id
@@ -41,13 +41,22 @@ if (isset($_SESSION['role']) && isset($_SESSION['id'])) {
         //$num_appointments = $conn->query("SELECT COUNT(*) FROM book WHERE Username = '".$_SESSION['username']."'")->fetchColumn();
 
 
+    } else if ($_SESSION['role'] === "doctor") {
+        $num_my_task = count_my_tasks($conn, $_SESSION['id']);
+        $overdue_task = count_my_tasks_overdue($conn, $_SESSION['id']);
+        $nodeadline_task = count_my_tasks_NoDeadline($conn, $_SESSION['id']);
+        $pending = count_my_pending_tasks($conn, $_SESSION['id']);
+        $in_progress = count_my_in_progress_tasks($conn, $_SESSION['id']);
+        $completed = count_my_completed_tasks($conn, $_SESSION['id']);
+        //$num_appointments = $conn->query("SELECT COUNT(*) FROM book WHERE Username = '".$_SESSION['username']."'")->fetchColumn();
+
+
     } else {
         // Unknown role, redirect to login
         $em = "Unknown role";
         header("Location: login.php?error=$em");
         exit();
     }
-
 } else {
     // Not logged in, redirect to login
     $em = "First login";
@@ -58,11 +67,13 @@ if (isset($_SESSION['role']) && isset($_SESSION['id'])) {
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <input type="checkbox" id="checkbox">
     <?php include "inc/header.php"; ?>
@@ -70,13 +81,14 @@ if (isset($_SESSION['role']) && isset($_SESSION['id'])) {
         <?php include "inc/nav.php"; ?>
         <section class="section-1">
             <?php if ($_SESSION['role'] === "admin") { ?>
-                
+
             <?php } else { ?>
-                
+
             <?php } ?>
         </section>
     </div>
 
 
 </body>
+
 </html>

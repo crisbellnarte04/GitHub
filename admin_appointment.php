@@ -144,6 +144,107 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "
                                                         $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                                                         foreach ($tasks as $row) {
+                                                            $b_id   = $row['b_id'];
+                                                            $purpose   = $row['purpose'];
+                                                            $fname     = $row['fname'];
+                                                            $lname    = $row['lname'];
+                                                            $date   = $row['date'];
+                                                            $time   = $row['time'];
+                                                            $created   = $row['created'];
+                                                            $status = $row['stat'];
+                                                            $date = date_format(date_create($date), "M/d/Y");
+                                                            $created = date_format(date_create($created), "M/d/Y h:i:a");
+                                                            switch ($status) {
+                                                                case 'pending':
+                                                                    $badgeClass = 'bg-warning';
+
+                                                                    break;
+
+                                                                case 'accept':
+                                                                    $badgeClass = 'bg-primary';
+
+                                                                    break;
+
+                                                                case 'completed':
+                                                                    $badgeClass = 'bg-success';
+                                                                    break;
+
+                                                                default:
+                                                            }
+
+                                                            $full_name = $lname . ', ' . $fname;
+                                                            $count++;
+
+                                                            echo '
+                                                            <tr>
+                                                                <td style="font-size: 18px;" class="text-center">' . $count . '</td>
+                                                                <td style="font-size: 15px;" class="text-center text-uppercase">
+                                                        ' . $full_name . '
+                                                                </td>
+                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($purpose) . '</td>
+                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($date) . '</td>
+                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($time) . '</td>
+                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">
+                                                                 <span class="badge rounded-pill text-bg     ' . $badgeClass . ' p-2 text-capitalize" style="letter-spacing:1px; font-size:13px;">' . $status . '</span>
+                                                                </td>
+                                                            <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($created) . '</td>
+
+                                                            <td class="text-center">
+                                                                        ';
+                                                            if ($status == 'pending') {
+                                                                echo '      <button class="btn btn-primary float-right btn-sm m-3" data-bs-toggle="modal" data-bs-target="#assignedDoctor' . $b_id . '">
+                                Assigned Doctor</button>
+                                ';
+                                                            }
+                                                            echo '
+                                </td>
+                                                                    
+                                                            
+                                                            </tr>';
+                                                        }
+                                                        ?>
+
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane" id="due_today" role="tabpanel" aria-labelledby="due_today-tab" tabindex="0">
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="card m-3 overflow-auto" style="border:none;">
+                                    <div class="card-body">
+                                        <div class="row ">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-bordered first">
+                                                    <thead class="bg-light">
+                                                        <tr class="border-0">
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;"></th>
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">FULLNAME</th>
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">PURPOSE</th>
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">DATE</th>
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">TIME</th>
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">STATUS</th>
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">SUBMITTED</th>
+
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ACTION</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php
+                                                        $count = 0;
+
+                                                        // 1. Fetch all pending tasks
+                                                        $stmt = $conn->prepare("SELECT * FROM `appointments` where stat = 'pending'");
+                                                        $stmt->execute();
+                                                        $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                                        foreach ($tasks as $row) {
                                                             $id   = $row['b_id'];
                                                             $purpose   = $row['purpose'];
                                                             $fname     = $row['fname'];
@@ -190,80 +291,13 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "
                                                             <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($created) . '</td>
 
                                                             <td class="text-center">
-                                                                             <button class="btn btn-primary float-right btn-sm m-3" data-bs-toggle="modal" data-bs-target="#assignedDoctor' . $id . '">
-                                Assigned Doctor</button>
-                                </td>
-                                                                    
-                                                            
-                                                            </tr>';
-                                                        }
-                                                        ?>
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="tab-pane" id="due_today" role="tabpanel" aria-labelledby="due_today-tab" tabindex="0">
-
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="card m-3 overflow-auto" style="border:none;">
-                                    <div class="card-body">
-                                        <div class="row ">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-bordered first">
-                                                    <thead class="bg-light">
-                                                        <tr class="border-0">
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;"></th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">TITLE</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">DESCRIPTION</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ASSIGNED TO</th>
-
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ACTION</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php
-
-                                                        $stmt = $conn->prepare("SELECT * FROM `tasks` WHERE `due_date` = :today");
-
-                                                        $stmt->execute(['today' => $today]);
-
-                                                        $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                                                        foreach ($tasks as $row) {
-                                                            $id   = $row['id'];
-                                                            $title   = $row['title'];
-                                                            $description     = $row['description'];
-                                                            $assigned_to    = $row['assigned_to'];
-                                                            $due_date   = $row['due_date'];
-
-
-                                                            $stmt_user = $conn->prepare("SELECT * FROM `users` WHERE `id` = :assigned_to");
-                                                            $stmt_user->execute(['assigned_to' => $assigned_to]);
-                                                            $users = $stmt_user->fetch(PDO::FETCH_ASSOC);
-
-                                                            $full_name = $users['full_name'] ?? 'N/A';
-
-                                                            $count++;
-
+                                                                        ';
+                                                            if ($status == 'pending') {
+                                                                echo '      <button class="btn btn-primary float-right btn-sm m-3" data-bs-toggle="modal" data-bs-target="#assignedDoctor' . $id . '">
+                                Assigned Doctor</button>';
+                                                            }
                                                             echo '
-                                                            <tr>
-                                                                <td style="font-size: 18px;" class="text-center">' . $count . '</td>
-                                                                <td style="font-size: 15px;" class="text-center text-uppercase">
-                                                        ' . $title . '
-                                                                </td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($description) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($full_name) . '</td>
-                                                             
-                                                            <td class="text-center">
-                                                                                <a href="edit-task.php?id=' . $id . '" class="edit-btn">Edit</a>
-                                                                                <a href="delete-task.php?id=' . $id . '" class="delete-btn">Delete</a>
+                                </td>
                                                                     
                                                             
                                                             </tr>';
@@ -290,50 +324,72 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "
                                                     <thead class="bg-light">
                                                         <tr class="border-0">
                                                             <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;"></th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">TITLE</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">DESCRIPTION</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ASSIGNED TO</th>
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">FULLNAME</th>
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">PURPOSE</th>
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">DATE</th>
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">TIME</th>
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">STATUS</th>
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">SUBMITTED</th>
 
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ACTION</th>
+                                                            <!-- <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ACTION</th> -->
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <?php
+                                                        $count = 0;
 
-                                                        $stmt = $conn->prepare("SELECT * FROM `tasks` WHERE `due_date` < :today");
-
-                                                        $stmt->execute(['today' => $today]);
-
+                                                        // 1. Fetch all pending tasks
+                                                        $stmt = $conn->prepare("SELECT * FROM `appointments` where stat = 'accept'");
+                                                        $stmt->execute();
                                                         $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                                                         foreach ($tasks as $row) {
-                                                            $id   = $row['id'];
-                                                            $title   = $row['title'];
-                                                            $description     = $row['description'];
-                                                            $assigned_to    = $row['assigned_to'];
-                                                            $due_date   = $row['due_date'];
+                                                            $id   = $row['b_id'];
+                                                            $purpose   = $row['purpose'];
+                                                            $fname     = $row['fname'];
+                                                            $lname    = $row['lname'];
+                                                            $date   = $row['date'];
+                                                            $time   = $row['time'];
+                                                            $created   = $row['created'];
+                                                            $status = $row['stat'];
+                                                            $date = date_format(date_create($date), "M/d/Y");
+                                                            $created = date_format(date_create($created), "M/d/Y h:i:a");
+                                                            switch ($status) {
+                                                                case 'pending':
+                                                                    $badgeClass = 'bg-warning';
 
+                                                                    break;
 
-                                                            $stmt_user = $conn->prepare("SELECT * FROM `users` WHERE `id` = :assigned_to");
-                                                            $stmt_user->execute(['assigned_to' => $assigned_to]);
-                                                            $users = $stmt_user->fetch(PDO::FETCH_ASSOC);
+                                                                case 'accept':
+                                                                    $badgeClass = 'bg-primary';
 
-                                                            $full_name = $users['full_name'] ?? 'N/A';
+                                                                    break;
 
+                                                                case 'completed':
+                                                                    $badgeClass = 'bg-success';
+                                                                    break;
+
+                                                                default:
+                                                            }
+
+                                                            $full_name = $lname . ', ' . $fname;
                                                             $count++;
 
                                                             echo '
                                                             <tr>
                                                                 <td style="font-size: 18px;" class="text-center">' . $count . '</td>
                                                                 <td style="font-size: 15px;" class="text-center text-uppercase">
-                                                        ' . $title . '
+                                                        ' . $full_name . '
                                                                 </td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($description) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($full_name) . '</td>
-                                                             
-                                                            <td class="text-center">
-                                                                                <a href="edit-task.php?id=' . $id . '" class="edit-btn">Edit</a>
-                                                                                <a href="delete-task.php?id=' . $id . '" class="delete-btn">Delete</a>
+                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($purpose) . '</td>
+                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($date) . '</td>
+                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($time) . '</td>
+                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">
+                                                                 <span class="badge rounded-pill text-bg     ' . $badgeClass . ' p-2 text-capitalize" style="letter-spacing:1px; font-size:13px;">' . $status . '</span>
+                                                                </td>
+                                                            <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($created) . '</td>
+
+                                                           
                                                                     
                                                             
                                                             </tr>';
@@ -359,48 +415,72 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "
                                                     <thead class="bg-light">
                                                         <tr class="border-0">
                                                             <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;"></th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">TITLE</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">DESCRIPTION</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ASSIGNED TO</th>
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">FULLNAME</th>
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">PURPOSE</th>
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">DATE</th>
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">TIME</th>
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">STATUS</th>
+                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">SUBMITTED</th>
 
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ACTION</th>
+                                                            <!-- <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ACTION</th> -->
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <?php
+                                                        $count = 0;
 
-                                                        $stmt = $conn->prepare("SELECT * FROM `tasks` WHERE `due_date` = :no_dead");
-                                                        $stmt->execute(['no_dead' => '0000-00-00']);
+                                                        // 1. Fetch all pending tasks
+                                                        $stmt = $conn->prepare("SELECT * FROM `appointments` where stat = 'completed'");
+                                                        $stmt->execute();
                                                         $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                                                         foreach ($tasks as $row) {
-                                                            $id   = $row['id'];
-                                                            $title   = $row['title'];
-                                                            $description     = $row['description'];
-                                                            $assigned_to    = $row['assigned_to'];
-                                                            $due_date   = $row['due_date'];
+                                                            $id   = $row['b_id'];
+                                                            $purpose   = $row['purpose'];
+                                                            $fname     = $row['fname'];
+                                                            $lname    = $row['lname'];
+                                                            $date   = $row['date'];
+                                                            $time   = $row['time'];
+                                                            $created   = $row['created'];
+                                                            $status = $row['stat'];
+                                                            $date = date_format(date_create($date), "M/d/Y");
+                                                            $created = date_format(date_create($created), "M/d/Y h:i:a");
+                                                            switch ($status) {
+                                                                case 'pending':
+                                                                    $badgeClass = 'bg-warning';
 
+                                                                    break;
 
-                                                            $stmt_user = $conn->prepare("SELECT * FROM `users` WHERE `id` = :assigned_to");
-                                                            $stmt_user->execute(['assigned_to' => $assigned_to]);
-                                                            $users = $stmt_user->fetch(PDO::FETCH_ASSOC);
+                                                                case 'accept':
+                                                                    $badgeClass = 'bg-primary';
 
-                                                            $full_name = $users['full_name'] ?? 'N/A';
+                                                                    break;
 
+                                                                case 'completed':
+                                                                    $badgeClass = 'bg-success';
+                                                                    break;
+
+                                                                default:
+                                                            }
+
+                                                            $full_name = $lname . ', ' . $fname;
                                                             $count++;
 
                                                             echo '
                                                             <tr>
                                                                 <td style="font-size: 18px;" class="text-center">' . $count . '</td>
                                                                 <td style="font-size: 15px;" class="text-center text-uppercase">
-                                                        ' . $title . '
+                                                        ' . $full_name . '
                                                                 </td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($description) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($full_name) . '</td>
-                                                             
-                                                            <td class="text-center">
-                                                                                <a href="edit-task.php?id=' . $id . '" class="edit-btn">Edit</a>
-                                                                                <a href="delete-task.php?id=' . $id . '" class="delete-btn">Delete</a>
+                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($purpose) . '</td>
+                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($date) . '</td>
+                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($time) . '</td>
+                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">
+                                                                 <span class="badge rounded-pill text-bg     ' . $badgeClass . ' p-2 text-capitalize" style="letter-spacing:1px; font-size:13px;">' . $status . '</span>
+                                                                </td>
+                                                            <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($created) . '</td>
+
+                                                           
                                                                     
                                                             
                                                             </tr>';
@@ -427,9 +507,9 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "
         <?php
 
         $fetch_appointment = "SELECT * FROM `appointments`";
-        $result = mysqli_query($sqli, $fetch_appointment);
-        while ($row = mysqli_fetch_assoc($result)) {
-            $b_id = $row['b_id'];
+        $fetch_res = mysqli_query($sqli, $fetch_appointment);
+        while ($res_row = mysqli_fetch_assoc($fetch_res)) {
+            $b_id = $res_row['b_id'];
         ?>
             <div class="modal fade" id="assignedDoctor<?php echo $b_id; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="assignedDoctor" aria-hidden="true">
                 <div class="modal-dialog  modal-lg">

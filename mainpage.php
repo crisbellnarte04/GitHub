@@ -11,27 +11,6 @@ session_start();
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-   <?php if ($_SESSION['role'] === "admin") { ?>
-  <header>
-    <nav>
-      <div class="logo">RB Lirio Medical & Diagnostic Clinic</div>
-      <ul class="nav-links">
-        <li><a href="admin-book.php">Manage Appointment</a></li>
-        <li><a href="doctor_avail.php">Doctor Availability</a></li>
-        <li><a href="about.php">About</a></li>
-        <li><a href="logout.php">Logout</a></li>
-      </ul>
-      </ul>
-    </nav>
-  </header>
-  <section class="hero">
-  <div class="overlay"></div>
-  <div class="hero-content">
-        <h1>Welcome to RB Lirio Medical & Diagnostic Clinic</h1>
-        <p>Your health is our priority. Providing quality and affordable healthcare for all.</p>
-   </div>
-  </section>
- <?php } else { ?>
   <header>
     <nav>
       <div class="logo">RB Lirio Medical & Diagnostic Clinic</div>
@@ -53,7 +32,6 @@ session_start();
     <a href="packages.php" class="btn">View Packages</a>
   </div>
 </section>
-<?php } ?>
   <!-- Footer -->
   <footer>
     <p>© 2025 RB Lirio Medical & Diagnostic Clinic. All Rights Reserved.</p>

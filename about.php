@@ -26,10 +26,14 @@ session_start();
     }
 
     header nav {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 10px 0;
-      color: white;
-    }
+        background: rgba(0, 0, 0, 0.6);
+        padding: 10px 0;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
 
     .logo {
       font-weight: bold;

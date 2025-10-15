@@ -2,147 +2,166 @@
 session_start();
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Login | Task Management System</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-	<link rel="stylesheet" href="css/style.css">
-	<style>
-		* {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family:'Times New Roman', serif;
-        }
-        body{
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background: url("img/bg.jpg") center/cover no-repeat;
-            color: black;
-        }
-        form {
-          background: rgba(255, 255, 255, 0.1); 
-          backdrop-filter: blur(10px);          
-          -webkit-backdrop-filter: blur(10px);  
-          padding: 20px;
-          border-radius: 10px;
-          color: #000;  
-        }
-        .container{
-            margin: 0 15px;
-        }
-        .form-box {
-            width: 100%;
-            max-width: 450px;
-            padding: 30px;
-            background: #f1e3e3ff;
-            border-radius: 10px;
-        }
-        .form-box.active {
-            display: block;
-        }
-        h2 {
-            font-size: 34px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        input, select {
-            width: 100%;
-            padding: 12px;
-            background: #eee;
-            border-radius: 6px;
-            border: none;
-            outline: none;
-            font-size: 15px;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #7494ec;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            color: #fff;
-            font-weight: 500;
-            margin-top: 20px;
-            transition: 0.5s;
-        }
-        button:hover {
-            background: #6884d3;
-        }
-        p {
-            font-size: 16px;
-            text-align: center;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-        p a {
-            color: #4d97ffff;
-            text-decoration: none;
-        }
-        p a:hover {
-            text-decoration: underline;
-        }
-        footer {
-             position: fixed;
-             bottom: 0;
-             left: 0;
-             width: 100%;
-             background: rgba(0, 0, 0, 0.7);
-             color: white;
-             text-align: center;
-             padding: 10px 0;
-             font-size: 14px;
-             z-index: 999;
-        }
-	</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - RB Lirio Medical & Diagnostic Clinic</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Times New Roman', serif;
+    }
+
+    body {
+      background: url("img/bg.jpg") center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: white;
+    }
+
+    /* ===== LOGIN CONTAINER ===== */
+    .container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .login-box {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 40px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      color: #2f2f2fff;
+      text-align: center;
+    }
+
+    .login-box h2 {
+      color: black;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .login-box label {
+      display: block;
+      text-align: left;
+      color: #3b3b3bff;
+      font-size: 0.95rem;
+      margin-bottom: 5px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+      margin-bottom: 15px;
+      background: rgba(255, 255, 255, 0.85);
+      color: #333;
+      font-size: 1rem;
+    }
+
+    .login-box input:focus {
+      border: 2px solid #0077b6;
+    }
+
+    .btn {
+      background: rgba(27, 27, 27, 1);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #636465ff;
+    }
+
+    .login-box p {
+      color: black;
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+
+    .login-box a {
+      color: #333232ff;
+      text-decoration: none;
+    }
+
+    .login-box a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 14px;
+      margin-top: auto;
+      width: 100%;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 480px) {
+      .login-box {
+        padding: 30px 20px;
+        width: 90%;
+      }
+    }
+  </style>
 </head>
-<body class="login-body">
-      
-      <form method="POST" action="app/login_connection.php" class="shadow p-4">
+<body>
 
-      	  <h3 class="display-4">LOGIN</h3>
-      	  <?php if (isset($_GET['error'])) {?>
-      	  	<div class="alert alert-danger" role="alert">
-			  <?php echo stripcslashes($_GET['error']); ?>
-			</div>
-      	  <?php } ?>
+  <div class="container">
+    <div class="login-box">
+      <h2>Login</h2>
 
-      	  <?php if (isset($_GET['success'])) {?>
-      	  	<div class="alert alert-success" role="alert">
-			  <?php echo stripcslashes($_GET['success']); ?>
-			</div>
-      	  <?php } 
+      <?php if (isset($_GET['error'])) { ?>
+        <div class="alert alert-danger" role="alert" style="background: rgba(255,0,0,0.2); color: white; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+          <?php echo stripcslashes($_GET['error']); ?>
+        </div>
+      <?php } ?>
 
-                // $pass = "123";
-                // $pass = password_hash($pass, PASSWORD_DEFAULT);
-                // echo $pass;
-      
-      	  ?>
-  
-			
-		  <div class="mb-3">
-		    <label for="exampleInputEmail1" class="form-label">User name</label>
-		    <input type="text" class="form-control" name="user_name" placeholder="Username">
-		  </div>
-		  <div class="mb-3">
-		    <label for="exampleInputPassword1" class="form-label">Password</label>
-		    <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Username">
-		  </div>
-		  <p>Don't have an account? <a href="register.php">Register</a></p>
-		  <button type="submit" class="btn btn-primary">Login</button>
-		  <p><a href ="terms&condition.html">Terms & Condition</a></p>
-		</form>
-       <footer>
-         <p>© 2025 RB Lirio Medical & Diagnostic Clinic. All Rights Reserved.</p>
-       </footer>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+      <?php if (isset($_GET['success'])) { ?>
+        <div class="alert alert-success" role="alert" style="background: rgba(0,128,0,0.3); color: white; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+          <?php echo stripcslashes($_GET['success']); ?>
+        </div>
+      <?php } ?>
+
+      <form method="POST" action="app/login_connection.php">
+        <label for="username">User Name</label>
+        <input type="text" name="user_name" id="username" placeholder="Username" required>
+
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="Password" required>
+
+        <button type="submit" class="btn">Login</button>
+      </form>
+
+      <p>Don't have an account? <a href="register.php">Register</a></p>
+      <p><a href="terms&condition.html">Terms & Condition</a></p>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 RB Lirio Medical & Diagnostic Clinic. All Rights Reserved.</p>
+  </footer>
 </body>
 </html>

@@ -79,17 +79,18 @@ $user_id = $_SESSION["id"];
     }
 
     .content-box {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 20px;
-      padding: 40px;
-      max-width: 1000px;
-      width: 90%;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-      text-align: center;
-      overflow-x: auto;
-    }
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 1200px; /* increased from 1000px */
+  width: 95%; /* slightly wider */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  overflow-x: auto;
+  margin: 0 auto;
+}
 
     .content-box h2 {
       font-size: 2rem;
@@ -100,12 +101,13 @@ $user_id = $_SESSION["id"];
 
     /* ===== TABLE ===== */
     table {
-      width: 100%;
-      border-collapse: collapse;
-      color: black;
-      text-align: center;
-      margin-top: 10px;
-    }
+  width: 110%; /* slightly wider than container */
+  margin: 0 auto;
+  border-collapse: collapse;
+  color: black;
+  text-align: center;
+  margin-top: 10px;
+}
 
     th,
     td {

@@ -41,24 +41,15 @@ if (isset($_GET['doctor_id'])) {
 
 
     /* ===== Navbar ===== */
-    header {
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(10px);
-      padding: 15px 0;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 90%;
-      margin: 0 auto;
-    }
+    header nav {
+        background: rgba(0, 0, 0, 0.6);
+        padding: 10px 0;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
 
     .logo {
       color: #fff;
@@ -67,22 +58,27 @@ if (isset($_GET['doctor_id'])) {
     }
 
     .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 20px;
-    }
+        list-style: none;
+        display: flex;
+        gap: 15px;
+        margin-right: 20px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
 
-    .nav-links li a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        transition: background 0.3s;
+        font-size: 1rem;
+      }
 
-    .nav-links li a:hover,
-    .nav-links li a.active {
-      color: #00bcd4;
-    }
+    .nav-links a:hover,
+      .nav-links .active {
+        background: rgba(255, 255, 255, 0.2);
+      }
 
     /* ===== Container ===== */
     .container {

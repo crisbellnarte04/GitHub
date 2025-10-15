@@ -27,18 +27,14 @@ session_start();
 
     /* ===== NAVBAR (same as Main Page) ===== */
     header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(10px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 60px;
-      z-index: 1000;
-    }
+        background: rgba(0, 0, 0, 0.6);
+        padding: 10px 0;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
 
     .logo {
       color: #fff;
@@ -47,22 +43,26 @@ session_start();
     }
 
     .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 25px;
-    }
+        list-style: none;
+        display: flex;
+        gap: 15px;
+        margin-right: 20px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
 
-    .nav-links li a {
-      text-decoration: none;
-      color: #fff;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    .nav-links li a:hover,
-    .nav-links li a.active {
-      color: #00bcd4;
-    }
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        transition: background 0.3s;
+        font-size: 1rem;
+      }
+    .nav-links a:hover,
+      .nav-links .active {
+        background: rgba(255, 255, 255, 0.2);
+      }
 
     /* ===== MOBILE NAV ===== */
     @media (max-width: 768px) {
@@ -90,7 +90,7 @@ session_start();
     }
 
     main h2 {
-      color: #00bcd4;
+      color: #2f2f2fff;
       font-size: 2rem;
       margin-bottom: 10px;
     }
@@ -130,7 +130,7 @@ session_start();
 
     .package h3 {
       font-size: 1.2rem;
-      color: #00bcd4;
+      color: #2f2f2fff;
       margin-bottom: 10px;
     }
 
@@ -160,7 +160,7 @@ session_start();
 
     .btn-book {
       display: inline-block;
-      background: #00bcd4;
+      background: #2f2f2fff;
       color: #fff;
       text-decoration: none;
       padding: 10px 20px;
@@ -170,7 +170,7 @@ session_start();
     }
 
     .btn-book:hover {
-      background: #009bb0;
+      background: #2f2f2fff;
       transform: scale(1.05);
     }
     

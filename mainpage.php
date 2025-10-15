@@ -25,7 +25,7 @@
 
       /* ===== NAVIGATION BAR ===== */
       header nav {
-        background: rgba(0, 0, 0, 0.6);
+        background: rgba(0, 0, 0, 0.65);
         padding: 10px 0;
         color: white;
         display: flex;
@@ -74,14 +74,14 @@
       }
 
       .content-box {
-        background: rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
         border-radius: 15px;
         padding: 40px;
         max-width: 900px;
         width: 90%;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         text-align: center;
       }
 
@@ -155,10 +155,14 @@
   }
 
   p {
-    color: #2d2c2cff;
+    color:#2d2c2cff;
     font-size: 0.95rem;
   }
 
+  footer p {
+    color: white;
+    font-size: 0.95rem;
+  }
 
       /* ===== FOOTER ===== */
       footer {

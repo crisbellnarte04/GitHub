@@ -15,22 +15,102 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "
 
     <head>
         <title>All Tasks</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/style.css">
 
     </head>
     <style>
-        .nav-link.active .count {
-            color: red;
-            font-size: 20px;
-        }
+        /* Body background image */
+body {
+    background: url("img/bg.jpg") center/cover no-repeat;
+    color: #fff;
+    font-family: 'Times New Roman', serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
-        .count {
-            font-weight: 600;
-            letter-spacing: 3px;
-            color: #6c757d;
-            /* Bootstrap muted */
-        }
+/* Fix header and sidebar positioning */
+header.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px; /* adjust if your header height is different */
+    z-index: 1000; /* keep above sidebar */
+}
+
+nav.side-bar {
+    position: fixed;
+    top: 70px; /* same as header height */
+    left: 0;
+    width: 220px; /* adjust to your sidebar width */
+    height: calc(100% - 70px); /* remaining height below header */
+    background: rgba(0,0,0,0.6);
+    padding-top: 20px;
+    z-index: 900;
+}
+
+/* Main body content offsets */
+.body {
+    margin-left: 220px; /* same as sidebar width */
+    margin-top: 70px;   /* same as header height */
+    padding: 20px;
+}
+
+/* Card styling to match other pages */
+.card {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Form styling */
+form#saveForm, form#edit {
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Table styling */
+table th, table td {
+    text-align: center;
+    font-size: 15px;
+}
+
+.table-responsive {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* Button styles */
+.btn-primary {
+    background-color: #0C6217;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #095012;
+}
+
+/* Modal adjustments */
+.modal-content {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #fff;
+}
+
+/* Counter badges */
+.count {
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: #fff;
+}
+
     </style>
 
     <body>

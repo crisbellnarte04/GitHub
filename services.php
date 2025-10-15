@@ -1,197 +1,197 @@
 <?php
 session_start();
 include 'inc/bootstrap.php';
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Services - RB Lirio Medical & Diagnostic Clinic</title>
-
   <style>
-     * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Times New Roman', serif;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Times New Roman', serif;
+    }
 
-body {
-  background: url("img/bg.jpg") center/cover no-repeat;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
+    body {
+      background: url("img/bg.jpg") center/cover no-repeat fixed;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-/* ---- Navigation ---- */
-header nav {
-  background: rgba(0, 0, 0, 0.6);
-  padding: 10px 15px;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
+    /* ===== NAVIGATION BAR ===== */
+    header nav {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 10px 0;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
 
-.logo {
-  font-weight: bold;
-  font-size: 1.1rem;
-}
+    .logo {
+      font-weight: bold;
+      margin-left: 20px;
+      color: white;
+      font-size: 1.2rem;
+    }
 
-.nav-links {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+      margin-right: 20px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
 
-.nav-links a {
-  color: white;
-  text-decoration: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  transition: background 0.3s;
-}
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: background 0.3s;
+      font-size: 1rem;
+    }
 
-.nav-links a:hover,
-.nav-links .active {
-  background: rgba(255, 255, 255, 0.2);
-}
+    .nav-links a:hover,
+    .nav-links .active {
+      background: rgba(255, 255, 255, 0.2);
+    }
 
-/* ---- Main Layout ---- */
-main {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-}
+    /* ===== SERVICES SECTION ===== */
+    .services {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 40px 50px;
+      border-radius: 20px;
+      max-width: 900px;
+      width: 90%;
+      color: black;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      margin: 60px auto;
+    }
 
-.services {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: 40px 50px;
-  border-radius: 20px;
-  max-width: 900px;
-  width: 100%;
-  color: black;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  margin: auto; /* Centers within flex container */
-}
+    .services h2 {
+      margin-bottom: 25px;
+      font-size: 2rem;
+      color: black;
+    }
 
-.services h2 {
-  margin-bottom: 25px;
-  font-size: 2rem;
-  color: black;
-}
+    .btn {
+      background: rgba(37, 37, 37, 1);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 18px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-bottom: 25px;
+    }
 
-.service-boxes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 25px;
-  justify-content: center;
-}
+    .btn:hover {
+      background: gray;
+    }
 
-.service {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s, background 0.3s;
-}
+    .service-boxes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 25px;
+      justify-content: center;
+    }
 
-.service:hover {
-  transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.2);
-}
+    .service {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s, background 0.3s;
+    }
 
-.service h3 {
-  margin-bottom: 10px;
-  font-size: 1.3rem;
-  color: black;
-}
+    .service:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.2);
+    }
 
-.service p {
-  font-size: 1rem;
-  color: black;
-}
+    .service h3 {
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+      color: black;
+    }
 
-.btn {
-  background: #0077b6;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 10px 18px;
-  cursor: pointer;
-  transition: background 0.3s;
-  margin-bottom: 25px;
-}
+    .service p {
+      font-size: 1rem;
+      color: black;
+    }
 
-.btn:hover {
-  background: #0096c7;
-}
+    /* ===== FOOTER ===== */
+    footer {
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      width: 100%;
+      font-size: 14px;
+      margin-top: auto;
+    }
 
-/* ---- Footer ---- */
-footer {
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  text-align: center;
-  padding: 10px 0;
-  width: 100%;
-  font-size: 14px;
-  margin-top: auto;
-}
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .logo {
+        font-size: 1rem;
+        margin-left: 15px;
+      }
 
-/* ---- Responsive Design ---- */
-@media (max-width: 768px) {
-  header nav {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+      .nav-links {
+        justify-content: center;
+        margin: 10px 0;
+        gap: 10px;
+      }
 
-  .nav-links {
-    justify-content: center;
-    width: 100%;
-  }
+      .nav-links a {
+        font-size: 0.9rem;
+        padding: 6px 10px;
+      }
 
-  .services {
-    padding: 30px 20px;
-  }
+      .services {
+        padding: 30px 20px;
+        width: 95%;
+      }
 
-  .services h2 {
-    font-size: 1.6rem;
-  }
+      .services h2 {
+        font-size: 1.6rem;
+      }
 
-  .service {
-    width: 100%;
-  }
+      footer {
+        font-size: 12px;
+      }
+    }
 
-  .btn {
-    width: 100%;
-  }
-}
+    @media (max-width: 480px) {
+      .nav-links {
+        flex-direction: column;
+        gap: 8px;
+      }
 
-@media (max-width: 480px) {
-  .services h2 {
-    font-size: 1.4rem;
-  }
+      .nav-links a {
+        display: block;
+        text-align: center;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.1);
+      }
 
-  .service h3 {
-    font-size: 1.1rem;
-  }
-
-  .service p {
-    font-size: 0.9rem;
-  }
-}
-
+      .service-boxes {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 
@@ -200,22 +200,20 @@ footer {
     <nav>
       <div class="logo">RB Lirio Medical & Diagnostic Clinic</div>
       <ul class="nav-links">
-        <li><a href="mainpage.php">Home</a></li>
+        <li><a href="user-book.php">Book Appointment</a></li>
         <li><a href="user_appointment.php">My Appointment</a></li>
-
         <li><a href="about.php">About</a></li>
-        <li><a href="services.php">Services</a></li>
+        <li><a href="services.php" class="active">Services</a></li>
         <li><a href="packages.php">Packages</a></li>
         <li><a href="logout.php">Logout</a></li>
       </ul>
     </nav>
   </header>
 
-
   <section class="services">
-    <div class="d-flex flex-row-reverse"><button class=" btn" data-bs-toggle="modal" data-bs-target="#bookNow">
-        Book Now!
-      </button></div>
+    <div class="d-flex flex-row-reverse">
+      <button class="btn" data-bs-toggle="modal" data-bs-target="#bookNow">Book Now!</button>
+    </div>
     <h2>Our Services</h2>
     <div class="service-boxes">
       <div class="service">
@@ -237,194 +235,7 @@ footer {
     <p>© 2025 RB Lirio Medical & Diagnostic Clinic. All Rights Reserved.</p>
   </footer>
 
-  <div class="modal fade" id="bookNow" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="bookNow" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Book Now!</h5>
-        </div>
-        <div class="modal-body">
-          <form id="bookingForm" class="row g-3">
-            <div class="col-md-6">
-              <label for="first" class="form-label text-capitalize">first name:</label>
-              <input name="first" class="form-control" id="first" type="text" required>
-            </div>
-            <div class="col-md-6">
-              <label for="middle" class="form-label text-capitalize">Middle name:</label>
-              <input name="middle" class="form-control" id="middle" type="text">
-            </div>
-            <div class="col-md-6">
-              <label for="last" class="form-label text-capitalize">last name:</label>
-              <input name="last" class="form-control" id="last" type="text" required>
-            </div>
-            <div class="col-md-6">
-              <label for="fname" class="form-label text-capitalize">suffix:</label>
-              <select class="form-select" name="suffix">
-                <option selected disabled>Select Suffix</option>
-                <option value="Jr.">Jr.</option>
-                <option value="Sr.">Sr.</option>
-                <option value="I">I</option>
-                <option value="II">II</option>
-                <option value="III">III</option>
-                <option value="IV">IV</option>
-              </select>
-            </div>
-
-            <div class="col-md-6">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" placeholder="Enter your email" required class="form-control" />
-
-            </div>
-            <div class="col-md-6">
-              <label for="phone">Phone Number</label>
-              <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required class="form-control" />
-
-            </div>
-            <div class="col-md-4">
-              <label for="gender">Gender</label>
-              <select id="gender" name="gender" required class="form-select">
-                <option value="">-- Select Gender --</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-            </div>
-
-
-
-            <div class="col-md-4">
-              <label for="date_of_visit">Preferred Date</label>
-              <input type="date" id="date" name="date" required min="<?php echo $date; ?>" class="form-control" />
-
-            </div>
-            <div class="col-md-4">
-              <label for="time">Available Time</label>
-              <select id="time" name="time" required class="form-select">
-                <option value="">Select valid date first</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label for="phone">Purpose of Appointment</label>
-              <select name="purpose" id="serviceSelect" class="form-select" onchange="updatePrice()">
-                <option selected disabled>-- Select a Service --</option>
-                <option value="General Consultation - ₱ 800">General Consultation</option>
-                <option value="Blood Test - ₱ 1,500">Blood Test</option>
-                <option value="Urinalysis - ₱ 200">Urinalysis</option>
-                <option value="Blood Pressure Check - ₱ 150">Blood Pressure Check</option>
-                <option value="Pregnancy Test - ₱ 400">Pregnancy Test</option>
-                <option value="Vaccination/Immunization - ₱ 2,000">Vaccination/Immunization</option>
-                <option value="Electrocardiogram (ECG or EKG) - ₱ 800">Electrocardiogram (ECG or EKG)</option>
-                <option value="X-ray service - ₱ 300">X-ray service</option>
-                <option value="Complete blood count (CBC) - ₱ 600">Complete blood count (CBC)</option>
-                <option value="Urine drug test - ₱ 1,000">Urine drug test</option>
-                <option value="Fecalysis (stool exam) - ₱ 500">Fecalysis (stool exam)</option>
-                <option value="Pap smear - ₱ 1,200">Pap smear</option>
-                <option value="HIV or STD testing - ₱ 1,500">HIV or STD testing</option>
-                <option value="Lipid profile test - ₱ 1,200">Lipid profile test</option>
-                <option value="Thyroid function test - ₱ 1,500">Thyroid function test</option>
-              </select>
-
-            </div>
-            <div class="col-md-6">
-              <label for="priceInput">Price (₱)</label>
-              <input type="text" id="priceInput" placeholder="₱ 0.00" disabled class="form-control">
-            </div>
-            <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Save</button>
-            </div>
-          </form>
-
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <?php
-
-  include 'inc/imports.php';
-  ?>
-  <script>
-    $(document).on('submit', '#bookingForm', function(e) {
-      e.preventDefault();
-      var formData = new FormData(this);
-      formData.append("appoint", true);
-      $.ajax({
-        url: "app/appointment.php",
-        type: "post",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(data) {
-          var res = jQuery.parseJSON(data);
-          if (res.status == 401) {
-            Swal.fire({
-              icon: 'warning',
-              title: 'Something Went Wrong.',
-              text: res.msg,
-              timer: 10000
-            })
-          } else if (res.status == 201) {
-            Swal.fire({
-              icon: 'success',
-              title: 'SUCCESS',
-              text: res.msg,
-              timer: 2000
-            }).then(function() {
-              location.reload();
-            });
-          }
-        }
-
-      });
-
-    });
-    const dateInput = document.getElementById('date');
-    const timeSelect = document.getElementById('time');
-
-    // Function to populate available times
-    function populateTimes() {
-      timeSelect.innerHTML = ''; // Clear previous options
-      for (let hour = 7; hour <= 17; hour++) {
-        const ampm = hour >= 12 ? 'PM' : 'AM';
-        const displayHour = hour % 12 === 0 ? 12 : hour % 12;
-        const option = document.createElement('option');
-        option.value = `${hour}:00`;
-        option.textContent = `${displayHour}:00 ${ampm}`;
-        timeSelect.appendChild(option);
-      }
-    }
-
-    // Listen for date change
-    dateInput.addEventListener('input', function() {
-      const selectedDate = new Date(this.value);
-      const day = selectedDate.getUTCDay(); // Sunday = 0
-
-      if (day === 0) {
-        alert('Sundays are not allowed. Please choose another date.');
-        this.value = '';
-        timeSelect.innerHTML = '<option value="">Select valid date first</option>';
-        timeSelect.disabled = true;
-      } else {
-        populateTimes();
-        timeSelect.disabled = false;
-      }
-    });
-
-    function updatePrice() {
-      const select = document.getElementById('serviceSelect');
-      const priceInput = document.getElementById('priceInput');
-      const selected = select.value;
-
-      if (selected) {
-        // Extract price after "₱ "
-        const match = selected.match(/₱\s?([\d,]+)/);
-        priceInput.value = match ? `₱ ${match[1]}` : "";
-      } else {
-        priceInput.value = "";
-      }
-    }
-  </script>
+  <!-- Include your modal and JS here -->
+  <?php include 'inc/imports.php'; ?>
 </body>
-
 </html>

@@ -44,22 +44,131 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "
 
     <head>
         <title>All Tasks</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/style.css">
+        <style>
+/* Body background */
+body {
+    background: url("img/bg.jpg") center/cover no-repeat;
+    color: #fff;
+    font-family: 'Times New Roman', serif;
+    min-height: 100vh;
+}
 
-    </head>
-    <style>
-        .nav-link.active .count {
-            color: red;
-            font-size: 20px;
-        }
+/* Header fixed */
+header.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 1000;
+}
 
-        .count {
-            font-weight: 600;
-            letter-spacing: 3px;
-            color: #6c757d;
-            /* Bootstrap muted */
-        }
+/* Sidebar fixed */
+nav.side-bar {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 220px;
+    height: calc(100% - 70px);
+    background: rgba(0,0,0,0.6);
+    padding-top: 20px;
+    z-index: 900;
+}
+
+/* Main content */
+.body {
+    margin-left: 220px;
+    margin-top: 70px;
+    padding: 20px;
+}
+
+/* Outer card (glass effect) */
+.card.outer-card {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+/* Inner table container */
+.table-responsive {
+    max-height: 500px;
+    overflow-y: auto;
+    background: transparent; /* Remove glass here */
+    border-radius: 8px;
+}
+
+/* Table cells */
+table th, table td {
+    text-align: center;
+    font-size: 15px;
+    color: #fff;
+    background: transparent; /* Remove glass here */
+}
+
+/* Forms */
+form#saveForm, form#edit {
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #0C6217;
+    border: none;
+}
+.btn-primary:hover {
+    background-color: #095012;
+}
+
+button.btn-danger {
+    background-color: red;
+    color: #fff;
+    border: none;
+}
+button.btn-danger:hover {
+    background-color: darkred;
+}
+
+/* Modal content */
+.modal-content {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #fff;
+}
+
+/* Count badge */
+.count {
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: #fff;
+}
+
+/* Scroll for tables */
+.table-responsive::-webkit-scrollbar {
+    width: 6px;
+}
+.table-responsive::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 3px;
+}
+
+/* Tab buttons */
+.nav-link.active {
+    color: #0C6217 !important;
+    font-weight: bold;
+}
+.nav-link .count {
+    color: red;
+    font-size: 20px;
+}
+
     </style>
 
     <body>

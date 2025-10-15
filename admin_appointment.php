@@ -63,9 +63,9 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "
 
     <body>
         <input type="checkbox" id="checkbox">
-        <?php include "inc/header.php" ?>
+        <?php include "inc/header.php"; ?>
         <div class="body">
-            <?php include "inc/nav.php" ?>
+            <?php include "inc/nav.php"; ?>
             <section class="section-1">
                 <div class="card-header" style="background-color:transparent;border:none;">
                     <ul class="nav nav-pills nav-justified" id="myTab" role="tablist">

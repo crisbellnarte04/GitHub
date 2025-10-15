@@ -2,16 +2,16 @@
 session_start();
 include "db_connection.php";
 include "inc/bootstrap.php";
+
 $time = strtotime("+5 days", time());
 $date = date("Y-m-d", $time);
 $user_id = $_SESSION["id"];
-// This block is used ONLY if called with AJAX to get availability JSON.
+
+// AJAX availability fetch
 if (isset($_GET['doctor_id'])) {
   $doctor_id = $_GET['doctor_id'];
-
   $stmt = $conn->prepare("SELECT * FROM doctor_availability WHERE doctor_id = ?");
   $stmt->execute([$doctor_id]);
-
   $availability = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
   header('Content-Type: application/json');
@@ -25,71 +25,186 @@ if (isset($_GET['doctor_id'])) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Appointment | RB Lirio Medical & Diagnostic Clinic</title>
-  <link rel="stylesheet" href="css/rblirio.css" />
+  <title>Book Appointment | RB Lirio Medical & Diagnostic Clinic</title>
+  
+
   <style>
-    /* Minimal styling for demonstration */
     body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background: #f9f9f9;
+  font-family: 'Times New Roman', sans-serif;
+  background: url('img/bg.jpg') center no-repeat;
+  background-size: auto; /* keeps original size */
+  background-attachment: fixed; /* keeps image steady when scrolling (optional) */
+  margin: 0;
+  padding: 0;
+  color: #fff;
+}
+
+
+    /* ===== Navbar ===== */
+    header {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      padding: 15px 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
     }
 
-    .container {
-      max-width: 900px;
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 90%;
       margin: 0 auto;
-      background: white;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     }
 
-    label {
-      display: block;
-      margin-top: 15px;
+    .logo {
+      color: #fff;
+      font-size: 20px;
       font-weight: 600;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links li a:hover,
+    .nav-links li a.active {
+      color: #00bcd4;
+    }
+
+    /* ===== Container ===== */
+    .container {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      max-width: 900px;
+      margin: 150px auto 60px;
+      padding: 40px 30px;
+      color: #fff;
+    }
+
+    h2 {
+      text-align: center;
+      color: black;
+      margin-bottom: 30px;
+      font-size: 1.8rem;
+    }
+
+    /* ===== Form Elements ===== */
+    label {
+      font-weight: 600;
+      color: black;
+      margin-bottom: 5px;
+      display: block;
     }
 
     input,
     select {
       width: 100%;
       padding: 10px;
-      margin-top: 5px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.9);
       font-size: 1rem;
     }
 
-    button.btn {
-      margin-top: 20px;
-      width: 100%;
+    input:focus,
+    select:focus {
+      outline: 2px solid #00bcd4;
+    }
+
+    /* ===== Buttons ===== */
+    .btn {
+      display: inline-block;
+      width: 48%;
       padding: 12px;
-      background: #0077b6;
+      background: #00bcd4;
       border: none;
       border-radius: 6px;
       color: white;
-      font-size: 1.1rem;
+      font-size: 1rem;
+      font-weight: 500;
       cursor: pointer;
+      transition: background 0.3s ease;
     }
 
-    button.btn:hover {
-      background: #005f86;
+    .btn:hover {
+      background: #019aad;
     }
-    nav {
-      background-color: #023e8a;
-      padding: 8px;
+
+    .btn-secondary {
+      background: gray;
     }
-    .logo {
-      color: white;
+
+    .btn-secondary:hover {
+      background: #555;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+      margin-top: 40px;
+    }
+
+    /* ===== Responsive Design ===== */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .card-footer {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 
 <body>
-<nav>
+  <!-- ===== Navbar ===== -->
+  <header>
+    <nav>
       <div class="logo">RB Lirio Medical & Diagnostic Clinic</div>
       <ul class="nav-links">
-        <li><a href="user-book.php">Book Appointment</a></li>
+        <li><a href="mainpage.php">Home</a></li>
+        <li><a href="user-book.php" class="active">Book Appointment</a></li>
         <li><a href="user_appointment.php">My Appointment</a></li>
         <li><a href="about.php">About</a></li>
         <li><a href="services.php">Services</a></li>
@@ -97,24 +212,25 @@ if (isset($_GET['doctor_id'])) {
         <li><a href="logout.php">Logout</a></li>
       </ul>
     </nav>
+  </header>
+
+  <!-- ===== Booking Form ===== -->
   <div class="container">
     <h2>Book an Appointment</h2>
-    <form id="bookingForm" class="row g-3">
-      <div class="col-md-6">
-        <label for="first" class="form-label text-capitalize">first name:</label>
-        <input name="first" class="form-control" id="first" type="text" required>
-      </div>
-      <div class="col-md-6">
-        <label for="middle" class="form-label text-capitalize">Middle name:</label>
-        <input name="middle" class="form-control" id="middle" type="text">
-      </div>
-      <div class="col-md-6">
-        <label for="last" class="form-label text-capitalize">last name:</label>
-        <input name="last" class="form-control" id="last" type="text" required>
-      </div>
-      <div class="col-md-6">
-        <label for="fname" class="form-label text-capitalize">suffix:</label>
-        <select class="form-select" name="suffix">
+
+    <form id="bookingForm">
+      <div class="row">
+        <label for="first">First Name:</label>
+        <input name="first" id="first" type="text" required>
+
+        <label for="middle">Middle Name:</label>
+        <input name="middle" id="middle" type="text">
+
+        <label for="last">Last Name:</label>
+        <input name="last" id="last" type="text" required>
+
+        <label for="suffix">Suffix:</label>
+        <select name="suffix">
           <option selected disabled>Select Suffix</option>
           <option value="Jr.">Jr.</option>
           <option value="Sr.">Sr.</option>
@@ -123,81 +239,72 @@ if (isset($_GET['doctor_id'])) {
           <option value="III">III</option>
           <option value="IV">IV</option>
         </select>
-      </div>
 
-      <div class="col-md-6">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
 
-      </div>
-      <div class="col-md-6">
-        <label for="phone">Phone Number</label>
-        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required />
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
 
-      </div>
-      <div class="col-md-4">
-        <label for="gender">Gender</label>
+        <label for="gender">Gender:</label>
         <select id="gender" name="gender" required>
           <option value="">-- Select Gender --</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
-      </div>
 
+        <label for="date">Preferred Date:</label>
+        <input type="date" id="date" name="date" required min="<?php echo $date; ?>">
 
-
-      <div class="col-md-4">
-        <label for="date_of_visit">Preferred Date</label>
-        <input type="date" id="date" name="date" required min="<?php echo $date; ?>" />
-
-      </div>
-      <div class="col-md-4">
-        <label for="time">Available Time</label>
-        <select id="time" name="time"  required>
+        <label for="time">Available Time:</label>
+        <select id="time" name="time" required>
           <option value="">Select valid date first</option>
         </select>
-      </div>
-      <div class="col-md-12">
-        <label for="phone">Purpose of Appointment</label>
-              <select name="purpose" id="serviceSelect" class="form-select" onchange="updatePrice()">
-                <option selected disabled> Select </option>
-                <option value="General Consultation - ₱ 800">General Consultation</option>
-                <option value="Blood Test - ₱ 1,500">Blood Test</option>
-                <option value="Urinalysis - ₱ 200">Urinalysis</option>
-                <option value="Blood Pressure Check - ₱ 150">Blood Pressure Check</option>
-                <option value="Pregnancy Test - ₱ 400">Pregnancy Test</option>
-                <option value="Vaccination/Immunization - ₱ 2,000">Vaccination/Immunization</option>
-                <option value="Electrocardiogram (ECG or EKG) - ₱ 800">Electrocardiogram (ECG or EKG)</option>
-                <option value="X-ray service - ₱ 300">X-ray service</option>
-                <option value="Complete blood count (CBC) - ₱ 600">Complete blood count (CBC)</option>
-                <option value="Urine drug test - ₱ 1,000">Urine drug test</option>
-                <option value="Fecalysis (stool exam) - ₱ 500">Fecalysis (stool exam)</option>
-                <option value="Pap smear - ₱ 1,200">Pap smear</option>
-                <option value="HIV or STD testing - ₱ 1,500">HIV or STD testing</option>
-                <option value="Lipid profile test - ₱ 1,200">Lipid profile test</option>
-                <option value="Thyroid function test - ₱ 1,500">Thyroid function test</option>
-              </select>
 
-      </div>
-      <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-      <div class="card-footer">
-        <button type="submit" class="btn">Submit Appointment</button>
-        <a href="mainpage.php" type="button btn-secondary">
-          <button type="button" class="btn" style="background-color: gray;">Close</button>
+        <label for="serviceSelect">Purpose of Appointment:</label>
+        <select name="purpose" id="serviceSelect" required>
+          <option selected disabled>Select</option>
+          <option value="General Consultation - ₱ 800">General Consultation</option>
+          <option value="Blood Test - ₱ 1,500">Blood Test</option>
+          <option value="Urinalysis - ₱ 200">Urinalysis</option>
+          <option value="Blood Pressure Check - ₱ 150">Blood Pressure Check</option>
+          <option value="Pregnancy Test - ₱ 400">Pregnancy Test</option>
+          <option value="Vaccination/Immunization - ₱ 2,000">Vaccination/Immunization</option>
+          <option value="Electrocardiogram (ECG or EKG) - ₱ 800">Electrocardiogram (ECG or EKG)</option>
+          <option value="X-ray service - ₱ 300">X-ray service</option>
+          <option value="Complete blood count (CBC) - ₱ 600">Complete blood count (CBC)</option>
+          <option value="Urine drug test - ₱ 1,000">Urine drug test</option>
+          <option value="Fecalysis (stool exam) - ₱ 500">Fecalysis (stool exam)</option>
+          <option value="Pap smear - ₱ 1,200">Pap smear</option>
+          <option value="HIV or STD testing - ₱ 1,500">HIV or STD testing</option>
+          <option value="Lipid profile test - ₱ 1,200">Lipid profile test</option>
+          <option value="Thyroid function test - ₱ 1,500">Thyroid function test</option>
+        </select>
 
-        </a>
+        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+
+        <div class="card-footer">
+          <button type="submit" class="btn">Submit Appointment</button>
+          <a href="mainpage.php" class="btn btn-secondary">Close</a>
+        </div>
       </div>
     </form>
   </div>
 
-  <?php
-  include 'inc/imports.php'; ?>
+  <!-- ===== Footer ===== -->
+  <footer>
+    <p>© 2025 RB Lirio Medical & Diagnostic Clinic. All Rights Reserved.</p>
+  </footer>
+
+  <?php include 'inc/imports.php'; ?>
 
   <script>
+    // Appointment Form AJAX
     $(document).on('submit', '#bookingForm', function(e) {
       e.preventDefault();
       var formData = new FormData(this);
       formData.append("appoint", true);
+
       $.ajax({
         url: "app/appointment.php",
         type: "post",
@@ -212,7 +319,7 @@ if (isset($_GET['doctor_id'])) {
               title: 'Something Went Wrong.',
               text: res.msg,
               timer: 10000
-            })
+            });
           } else if (res.status == 201) {
             Swal.fire({
               icon: 'success',
@@ -224,16 +331,15 @@ if (isset($_GET['doctor_id'])) {
             });
           }
         }
-
       });
-
     });
+
+    // Time slot generation
     const dateInput = document.getElementById('date');
     const timeSelect = document.getElementById('time');
 
-    // Function to populate available times
     function populateTimes() {
-      timeSelect.innerHTML = ''; // Clear previous options
+      timeSelect.innerHTML = '';
       for (let hour = 7; hour <= 17; hour++) {
         const ampm = hour >= 12 ? 'PM' : 'AM';
         const displayHour = hour % 12 === 0 ? 12 : hour % 12;
@@ -244,11 +350,9 @@ if (isset($_GET['doctor_id'])) {
       }
     }
 
-    // Listen for date change
     dateInput.addEventListener('input', function() {
       const selectedDate = new Date(this.value);
-      const day = selectedDate.getUTCDay(); // Sunday = 0
-
+      const day = selectedDate.getUTCDay();
       if (day === 0) {
         alert('Sundays are not allowed. Please choose another date.');
         this.value = '';
@@ -260,96 +364,5 @@ if (isset($_GET['doctor_id'])) {
       }
     });
   </script>
-  <!-- jQuery for AJAX
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-    $(function() {
-      let availability = [];
-
-      // When doctor changes, fetch availability
-      $('#doctor_id').on('change', function() {
-        const doctorId = $(this).val();
-        if (!doctorId) {
-          availability = [];
-          $('#time_select').html('<option value="">Select valid date first</option>');
-          return;
-        }
-        $.get('<?= basename(__FILE__) ?>', {
-          doctor_id: doctorId
-        }, function(data) {
-          availability = data;
-          $('#date_of_visit').val('');
-          $('#time_select').html('<option value="">Select valid date first</option>');
-        });
-      });
-
-      // When date changes, check availability and generate slots
-      $('#date_of_visit').on('change', function() {
-        const dateVal = $(this).val();
-        if (!dateVal) {
-          $('#time_select').html('<option value="">Select valid date first</option>');
-          return;
-        }
-
-        const selectedDate = new Date(dateVal);
-        const selectedDay = selectedDate.getDay(); // Sunday=0
-
-        // Map day names to numbers
-        const dayMap = {
-          "Sunday": 0,
-          "Monday": 1,
-          "Tuesday": 2,
-          "Wednesday": 3,
-          "Thursday": 4,
-          "Friday": 5,
-          "Saturday": 6
-        };
-
-        // Find availability matching the day
-        const matchedAvail = availability.find(avail => dayMap[avail.day_of_week] === selectedDay);
-
-        if (!matchedAvail) {
-          alert("Doctor is not available on the selected day.");
-          $('#date_of_visit').val('');
-          $('#time_select').html('<option value="">Select valid date first</option>');
-          return;
-        }
-
-        // Generate time slots
-        const start = matchedAvail.start_time;
-        const end = matchedAvail.end_time;
-        const duration = parseInt(matchedAvail.slot_duration_minutes, 10);
-
-        const slots = generateTimeSlots(start, end, duration);
-        let options = '<option value="">-- Select Time --</option>';
-        slots.forEach(slot => {
-          options += `<option value="${slot}">${slot}</option>`;
-        });
-
-        $('#time_select').html(options);
-      });
-
-      function generateTimeSlots(start, end, duration) {
-        const slots = [];
-        let [startH, startM] = start.split(':').map(Number);
-        let [endH, endM] = end.split(':').map(Number);
-
-        let current = new Date();
-        current.setHours(startH, startM, 0, 0);
-
-        const endTime = new Date();
-        endTime.setHours(endH, endM, 0, 0);
-
-        while (current < endTime) {
-          const h = current.getHours().toString().padStart(2, '0');
-          const m = current.getMinutes().toString().padStart(2, '0');
-          slots.push(`${h}:${m}`);
-          current.setMinutes(current.getMinutes() + duration);
-        }
-        return slots;
-      }
-    });
-  </script> -->
 </body>
-
 </html>

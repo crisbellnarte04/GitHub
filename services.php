@@ -10,7 +10,189 @@ include 'inc/bootstrap.php';
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Services - RB Lirio Medical & Diagnostic Clinic</title>
-  <link rel="stylesheet" href="css/rblirio.css">
+
+  <style>
+     * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Times New Roman', serif;
+}
+
+body {
+  background: url("img/bg.jpg") center/cover no-repeat;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ---- Navigation ---- */
+header nav {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 10px 15px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links .active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ---- Main Layout ---- */
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.services {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 40px 50px;
+  border-radius: 20px;
+  max-width: 900px;
+  width: 100%;
+  color: black;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  margin: auto; /* Centers within flex container */
+}
+
+.services h2 {
+  margin-bottom: 25px;
+  font-size: 2rem;
+  color: black;
+}
+
+.service-boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 25px;
+  justify-content: center;
+}
+
+.service {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s, background 0.3s;
+}
+
+.service:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.service h3 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  color: black;
+}
+
+.service p {
+  font-size: 1rem;
+  color: black;
+}
+
+.btn {
+  background: #0077b6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-bottom: 25px;
+}
+
+.btn:hover {
+  background: #0096c7;
+}
+
+/* ---- Footer ---- */
+footer {
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  width: 100%;
+  font-size: 14px;
+  margin-top: auto;
+}
+
+/* ---- Responsive Design ---- */
+@media (max-width: 768px) {
+  header nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-links {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .services {
+    padding: 30px 20px;
+  }
+
+  .services h2 {
+    font-size: 1.6rem;
+  }
+
+  .service {
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .services h2 {
+    font-size: 1.4rem;
+  }
+
+  .service h3 {
+    font-size: 1.1rem;
+  }
+
+  .service p {
+    font-size: 0.9rem;
+  }
+}
+
+  </style>
 </head>
 
 <body>

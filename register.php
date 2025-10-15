@@ -25,7 +25,7 @@ include "inc/bootstrap.php";
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            background: url("img/rblirio.jpg") center/cover no-repeat;
+            background: url("img/bg.jpg") center/cover no-repeat;
             color: black;
         }
 

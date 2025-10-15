@@ -1,5 +1,5 @@
 <?php  
-
+/*
 function get_all_my_notifications($conn, $id){
 	$sql = "SELECT * FROM notifications WHERE recipient=?";
 	$stmt = $conn->prepare($sql);

@@ -81,9 +81,9 @@ if (isset($_SESSION['role']) && isset($_SESSION['id'])) {
         <?php include "inc/nav.php"; ?>
         <section class="section-1">
             <?php if ($_SESSION['role'] === "admin") { ?>
-
-            <?php } else { ?>
-
+                
+            <?php } else if ($_SESSION['role'] === "doctor"){ ?>
+                
             <?php } ?>
         </section>
     </div>

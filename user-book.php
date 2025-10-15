@@ -75,11 +75,28 @@ if (isset($_GET['doctor_id'])) {
     button.btn:hover {
       background: #005f86;
     }
+    nav {
+      background-color: #023e8a;
+      padding: 8px;
+    }
+    .logo {
+      color: white;
+    }
   </style>
 </head>
 
 <body>
-
+<nav>
+      <div class="logo">RB Lirio Medical & Diagnostic Clinic</div>
+      <ul class="nav-links">
+        <li><a href="user-book.php">Book Appointment</a></li>
+        <li><a href="user_appointment.php">My Appointment</a></li>
+        <li><a href="about.php">About</a></li>
+        <li><a href="services.php">Services</a></li>
+        <li><a href="packages.php">Packages</a></li>
+        <li><a href="logout.php">Logout</a></li>
+      </ul>
+    </nav>
   <div class="container">
     <h2>Book an Appointment</h2>
     <form id="bookingForm" class="row g-3">
@@ -142,7 +159,24 @@ if (isset($_GET['doctor_id'])) {
       </div>
       <div class="col-md-12">
         <label for="phone">Purpose of Appointment</label>
-        <input type="text" id="purpose" name="purpose" placeholder="Enter your purpose" required />
+              <select name="purpose" id="serviceSelect" class="form-select" onchange="updatePrice()">
+                <option selected disabled> Select </option>
+                <option value="General Consultation - ₱ 800">General Consultation</option>
+                <option value="Blood Test - ₱ 1,500">Blood Test</option>
+                <option value="Urinalysis - ₱ 200">Urinalysis</option>
+                <option value="Blood Pressure Check - ₱ 150">Blood Pressure Check</option>
+                <option value="Pregnancy Test - ₱ 400">Pregnancy Test</option>
+                <option value="Vaccination/Immunization - ₱ 2,000">Vaccination/Immunization</option>
+                <option value="Electrocardiogram (ECG or EKG) - ₱ 800">Electrocardiogram (ECG or EKG)</option>
+                <option value="X-ray service - ₱ 300">X-ray service</option>
+                <option value="Complete blood count (CBC) - ₱ 600">Complete blood count (CBC)</option>
+                <option value="Urine drug test - ₱ 1,000">Urine drug test</option>
+                <option value="Fecalysis (stool exam) - ₱ 500">Fecalysis (stool exam)</option>
+                <option value="Pap smear - ₱ 1,200">Pap smear</option>
+                <option value="HIV or STD testing - ₱ 1,500">HIV or STD testing</option>
+                <option value="Lipid profile test - ₱ 1,200">Lipid profile test</option>
+                <option value="Thyroid function test - ₱ 1,500">Thyroid function test</option>
+              </select>
 
       </div>
       <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">

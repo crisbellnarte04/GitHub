@@ -9,6 +9,11 @@ session_start();
   <title>RB Lirio Medical & Diagnostic Clinic- Home</title>
   <link rel="stylesheet" href="css/rblirio.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .hero {
+      background-image: url('img/bg.jpg');
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -25,12 +30,7 @@ session_start();
     </nav>
  </header>
  <section class="hero">
-  <div class="overlay"></div>
-  <div class="hero-content">
-    <h1>Welcome to RB Lirio Medical & Diagnostic Clinic</h1>
-    <p>Your health is our priority. Providing quality and affordable healthcare for all.</p>
-    <a href="packages.php" class="btn">View Packages</a>
-  </div>
+  <?php include "dashboard.php"?>>
 </section>
   <!-- Footer -->
   <footer>

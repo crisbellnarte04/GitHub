@@ -12,7 +12,7 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #e9f7f6;
+    background-image: url('img/bg.jpg') no-repeat center center fixed;
     color: #333;
 }
 
@@ -38,7 +38,7 @@ h1 {
 
 h2 {
     font-size: 1.8em;
-    color: #16a085;
+    color: #593ae2;
     margin-top: 1.5em;
     margin-bottom: 1em;
 }
@@ -83,6 +83,23 @@ a:hover {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+.back-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #3d48e8;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-bottom: 20px;
+  float: left; /* optional: makes it align to the left */
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.4);
+  color: #000;
+}
 
 /* For mobile responsiveness */
 @media (max-width: 768px) {
@@ -110,7 +127,7 @@ a:hover {
     </style>
 </head>
 <body>
-
+ <button class="back-btn" onclick="goBack()">← Back</button>
     <div class="container">
         <h1>Terms and Conditions</h1>
 
@@ -175,6 +192,11 @@ a:hover {
             <p>Disclaimer: This template is a general guide and should not be considered as legal advice. It's recommended to consult with a legal professional to ensure your Terms and Conditions meet the specific needs and requirements of your business.</p>
         </div>
     </div>
+<script>
+  function goBack() {
+    window.history.back();
+  }
+</script>
 
 </body>
 </html>

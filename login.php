@@ -21,8 +21,16 @@ session_start();
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            background: url("img/rblirio.jpg") center/cover no-repeat;
+            background: url("img/bg.jpg") center/cover no-repeat;
             color: black;
+        }
+        form {
+          background: rgba(255, 255, 255, 0.1); 
+          backdrop-filter: blur(10px);          
+          -webkit-backdrop-filter: blur(10px);  
+          padding: 20px;
+          border-radius: 10px;
+          color: #000;  
         }
         .container{
             margin: 0 15px;
@@ -31,7 +39,7 @@ session_start();
             width: 100%;
             max-width: 450px;
             padding: 30px;
-            background: #fff;
+            background: #f1e3e3ff;
             border-radius: 10px;
         }
         .form-box.active {
@@ -70,12 +78,13 @@ session_start();
             background: #6884d3;
         }
         p {
-            font-size: 14.5px;
+            font-size: 16px;
             text-align: center;
+            border-radius: 10px;
             margin-bottom: 10px;
         }
         p a {
-            color: #7494ec;
+            color: #4d97ffff;
             text-decoration: none;
         }
         p a:hover {

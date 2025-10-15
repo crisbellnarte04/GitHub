@@ -1,7 +1,6 @@
 <?php 
 session_start();
 if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "admin") {
-  
  ?>
 <!DOCTYPE html>
 <html>
@@ -47,7 +46,6 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "
 				<div class="input-holder">
 				<select name="role" id="role" class="form-select">
 					<option selected disabled>Select Role</option>
-					<option value="admin">Admin</option>
 					<option value="employee">Employee</option>
 					<option value="doctor">Doctor</option>
 				</select>
@@ -59,11 +57,6 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "
 			
 		</section>
 	</div>
-
-<script type="text/javascript">
-	var active = document.querySelector("#navList li:nth-child(2)");
-	active.classList.add("active");
-</script>
 </body>
 </html>
 <?php }else{ 

@@ -1,5 +1,5 @@
 <?php 
-session_start();
+/*session_start();
 if (isset($_SESSION['role']) && isset($_SESSION['id'])) {
     include "db_connection.php";
     include "app/Model/Notification.php";

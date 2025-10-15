@@ -35,18 +35,6 @@
 						<span>My Task</span>
 					</li>
 				</a>
-				<a href="notifications.php">
-				<li>
-						<i class="fa fa-bell" aria-hidden="true"></i>
-						<span>Notifications</span>
-					</li>
-				</a>
-				<!-- <a href="user-book.php">
-				<li>
-						<i class="fa fa-calendar" aria-hidden="true"></i>
-						<span>Book Apointment</span>
-					</li>
-				</a> -->
 				<a href="logout.php">
 				<li>
 						<i class="fa fa-sign-out" aria-hidden="true"></i>
@@ -71,20 +59,14 @@
 				</a>
 				<a href="create_task.php">
 				<li>
-						<i class="fa fa-bell" aria-hidden="true"></i>
+						<i class="fa fa-check-square" aria-hidden="true"></i>
 						<span>Create Task</span>
 					</li>
 				</a>
 				<a href="task.php">
 				<li>
-						<i class="fa fa-bell" aria-hidden="true"></i>
+						<i class="fa fa-tasks" aria-hidden="true"></i>
 						<span>All Tasks</span>
-					</li>
-				</a>
-				<a href="notifications.php">
-				<li>
-						<i class="fa fa-bell" aria-hidden="true"></i>
-						<span>Notifications</span>
 					</li>
 				</a>
 				<a href="admin_appointment.php">
@@ -113,7 +95,7 @@
 			
 				<a href="doc_appointment.php">
 				<li>
-						<i class="fa fa-calendar" aria-hidden="true"></i>
+						<i class="fa fa-calendar-check-o" aria-hidden="true"></i>
 						<span>Appointments</span>
 					</li>
 				</a>

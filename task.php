@@ -1,426 +1,225 @@
-<?php
+<?php 
 session_start();
 if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "admin") {
-    include "db_connection.php";
-    include "app/Model/Task.php";
-    include "app/Model/User.php";
-    include "inc/bootstrap.php";
-    $today = date('Y-m-d');
-
-    $stmt = $conn->prepare("SELECT * FROM `tasks` WHERE `due_date` = :today");
-    $stmt->execute(['today' => $today]);
-    $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $due_today = $stmt->rowCount();
-
-    $stmt = $conn->prepare("SELECT * FROM `tasks`");
-    $stmt->execute();
-    $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $all_task = $stmt->rowCount();
-
-    $stmt = $conn->prepare("SELECT * FROM `tasks` WHERE `due_date` < :overdue ");
-    $stmt->execute(['overdue' => $today]);
-    $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $over_due = $stmt->rowCount();
-
-    $stmt = $conn->prepare("SELECT * FROM `tasks` WHERE `due_date` = :no_dead");
-    $stmt->execute(['no_dead' => '0000-00-00']);
-    $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $no_dead = $stmt->rowCount();
 ?>
-    <!DOCTYPE html>
-    <html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add User - RB Lirio Medical & Diagnostic Clinic</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Times New Roman', serif;
+    }
 
-    <head>
-        <title>All Tasks</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/style.css">
+    body {
+      background: url("img/bg.jpg") center/cover no-repeat;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-    </head>
-    <style>
-        .nav-link.active .count {
-            color: red;
-            font-size: 20px;
-        }
+    header nav {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 10px 0;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
 
-        .count {
-            font-weight: 600;
-            letter-spacing: 3px;
-            color: #6c757d;
-            /* Bootstrap muted */
-        }
-    </style>
+    .logo {
+      font-weight: bold;
+      margin-left: 20px;
+      color: white;
+    }
 
-    <body>
-        <input type="checkbox" id="checkbox">
-        <?php include "inc/header.php" ?>
-        <div class="body">
-            <?php include "inc/nav.php" ?>
-            <section class="section-1">
-                <div class="card-header" style="background-color:transparent;border:none;">
-                    <ul class="nav nav-pills nav-justified" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab" aria-controls="pending" aria-selected="true">
-                                <br>
-                                <span style="color:black; letter-spacing:3px; " class="font-weight-bold">ALL TASK
-                                    <sup class="count"><?php echo $all_task; ?></sup>
-                                </span>
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+      justify-content: flex-end;
+      margin-right: 20px;
+    }
 
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="due_today-tab" data-bs-toggle="tab" data-bs-target="#due_today" type="button" role="tab" aria-controls="due_today" aria-selected="true">
-                                <br>
-                                <span style="color:black; letter-spacing:3px;" class="text-uppercase font-weight-bold ">DUE TODAY
-                                    <sup class="count"><?php echo $due_today; ?></sup>
-                                </span>
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
 
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="over_due-tab" data-bs-toggle="tab" data-bs-target="#over_due" type="button" role="tab" aria-controls="over_due" aria-selected="true">
-                                <br>
-                                <span style="color:black; letter-spacing:3px;" class="text-uppercase font-weight-bold ">OVERDUE
-                                    <sup class="count"><?php echo $over_due; ?></sup>
+    .nav-links a:hover,
+    .nav-links .active {
+      background: rgba(255, 255, 255, 0.2);
+    }
 
-                                </span>
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button" role="tab" aria-controls="completed" aria-selected="true">
-                                <br>
-                                <span style="color:black; letter-spacing:3px;" class="text-uppercase font-weight-bold">NO DEADLINE
-                                    <sup class="count"><?= $no_dead ?></sup>
+    .container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
 
-                                </span>
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-                <?php if (isset($_GET['success'])) { ?>
-                    <div class="success" role="alert">
-                        <?php echo stripcslashes($_GET['success']); ?>
-                    </div>
-                <?php } ?>
-                <div class="card mt-5">
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="pending" role="tabpanel" aria-labelledby="pending-tab" tabindex="0">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="card m-3 overflow-auto" style="border:none;">
-                                    <div class="card-body">
-                                        <div class="row ">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-bordered first">
-                                                    <thead class="bg-light">
-                                                        <tr class="border-0">
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;"></th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">TITLE</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">DESCRIPTION</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ASSIGNED TO</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">DUE DATE</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">STATUS</th>
+    .content-box {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      padding: 30px 40px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      color: #2d2c2c;
+    }
 
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ACTION</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php
-                                                        $count = 0;
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      color: #2d2c2c;
+    }
 
-                                                        // 1. Fetch all pending tasks
-                                                        $stmt = $conn->prepare("SELECT * FROM `tasks`");
-                                                        $stmt->execute();
-                                                        $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    .form-group {
+      margin-bottom: 15px;
+    }
 
-                                                        foreach ($tasks as $row) {
-                                                            $id   = $row['id'];
-                                                            $title   = $row['title'];
-                                                            $description     = $row['description'];
-                                                            $assigned_to    = $row['assigned_to'];
-                                                            $due_date   = $row['due_date'];
-                                                            $status = $row['status'];
-                                                            $due_date = date_format(date_create($due_date), "M/d/Y");
-                                                            switch ($status) {
-                                                                case 'pending':
-                                                                    $badgeClass = 'bg-warning';
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #2d2c2c;
+    }
 
-                                                                    break;
+    input[type="text"], select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
 
-                                                                case 'in_progress':
-                                                                    $badgeClass = 'bg-primary';
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
 
-                                                                    break;
+    button:hover {
+      background-color: #45a049;
+    }
 
-                                                                case 'completed':
-                                                                    $badgeClass = 'bg-success';
-                                                                    break;
+    .success {
+      background: #28a745;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
 
-                                                                default:
-                                                            }
+    .danger {
+      background: #dc3545;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
 
-                                                            $stmt_user = $conn->prepare("SELECT * FROM `users` WHERE `id` = :assigned_to");
-                                                            $stmt_user->execute(['assigned_to' => $assigned_to]);
-                                                            $users = $stmt_user->fetch(PDO::FETCH_ASSOC);
+    .back-link {
+      display: inline-block;
+      margin-top: 15px;
+      text-decoration: none;
+      color: #007bff;
+      text-align: center;
+      width: 100%;
+    }
 
-                                                            $full_name = $users['full_name'] ?? 'N/A';
+    .back-link:hover {
+      text-decoration: underline;
+    }
 
-                                                            $count++;
+    footer {
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      width: 100%;
+      font-size: 14px;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <?php include "inc/header.php"; ?>
+  <div class="container">
+	<?php include "inc/nav.php"; ?>
+    <div class="content-box">
+      <h2>Add User</h2>
 
-                                                            echo '
-                                                            <tr>
-                                                                <td style="font-size: 18px;" class="text-center">' . $count . '</td>
-                                                                <td style="font-size: 15px;" class="text-center text-uppercase">
-                                                        ' . $title . '
-                                                                </td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($description) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($full_name) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($due_date) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">
-                                                                 <span class="badge rounded-pill text-bg     '.$badgeClass.' p-2 text-capitalize" style="letter-spacing:1px; font-size:13px;">'.$status.'</span>
-                                                                </td>
-                                                            <td class="text-center">
-                                                                                <a href="edit-task.php?id=' . $id . '" class="edit-btn">Edit</a>
-                                                                                <a href="delete-task.php?id=' . $id . '" class="delete-btn">Delete</a>
-                                                                    
-                                                            
-                                                            </tr>';
-                                                        }
-                                                        ?>
+      <?php if (isset($_GET['error'])) { ?>
+        <div class="danger"><?php echo stripcslashes($_GET['error']); ?></div>
+      <?php } ?>
 
+      <?php if (isset($_GET['success'])) { ?>
+        <div class="success"><?php echo stripcslashes($_GET['success']); ?></div>
+      <?php } ?>
 
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="tab-pane" id="due_today" role="tabpanel" aria-labelledby="due_today-tab" tabindex="0">
-
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="card m-3 overflow-auto" style="border:none;">
-                                    <div class="card-body">
-                                        <div class="row ">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-bordered first">
-                                                    <thead class="bg-light">
-                                                        <tr class="border-0">
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;"></th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">TITLE</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">DESCRIPTION</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ASSIGNED TO</th>
-
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ACTION</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php
-
-                                                        $stmt = $conn->prepare("SELECT * FROM `tasks` WHERE `due_date` = :today");
-
-                                                        $stmt->execute(['today' => $today]);
-
-                                                        $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                                                        foreach ($tasks as $row) {
-                                                            $id   = $row['id'];
-                                                            $title   = $row['title'];
-                                                            $description     = $row['description'];
-                                                            $assigned_to    = $row['assigned_to'];
-                                                            $due_date   = $row['due_date'];
-
-
-                                                            $stmt_user = $conn->prepare("SELECT * FROM `users` WHERE `id` = :assigned_to");
-                                                            $stmt_user->execute(['assigned_to' => $assigned_to]);
-                                                            $users = $stmt_user->fetch(PDO::FETCH_ASSOC);
-
-                                                            $full_name = $users['full_name'] ?? 'N/A';
-
-                                                            $count++;
-
-                                                            echo '
-                                                            <tr>
-                                                                <td style="font-size: 18px;" class="text-center">' . $count . '</td>
-                                                                <td style="font-size: 15px;" class="text-center text-uppercase">
-                                                        ' . $title . '
-                                                                </td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($description) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($full_name) . '</td>
-                                                             
-                                                            <td class="text-center">
-                                                                                <a href="edit-task.php?id=' . $id . '" class="edit-btn">Edit</a>
-                                                                                <a href="delete-task.php?id=' . $id . '" class="delete-btn">Delete</a>
-                                                                    
-                                                            
-                                                            </tr>';
-                                                        }
-                                                        ?>
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="over_due" role="tabpanel" aria-labelledby="over_due-tab" tabindex="0">
-
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="card m-3 overflow-auto" style="border:none;">
-                                    <div class="card-body">
-                                        <div class="row ">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-bordered first">
-                                                    <thead class="bg-light">
-                                                        <tr class="border-0">
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;"></th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">TITLE</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">DESCRIPTION</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ASSIGNED TO</th>
-
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ACTION</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php
-
-                                                        $stmt = $conn->prepare("SELECT * FROM `tasks` WHERE `due_date` < :today");
-
-                                                        $stmt->execute(['today' => $today]);
-
-                                                        $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                                                        foreach ($tasks as $row) {
-                                                            $id   = $row['id'];
-                                                            $title   = $row['title'];
-                                                            $description     = $row['description'];
-                                                            $assigned_to    = $row['assigned_to'];
-                                                            $due_date   = $row['due_date'];
-
-
-                                                            $stmt_user = $conn->prepare("SELECT * FROM `users` WHERE `id` = :assigned_to");
-                                                            $stmt_user->execute(['assigned_to' => $assigned_to]);
-                                                            $users = $stmt_user->fetch(PDO::FETCH_ASSOC);
-
-                                                            $full_name = $users['full_name'] ?? 'N/A';
-
-                                                            $count++;
-
-                                                            echo '
-                                                            <tr>
-                                                                <td style="font-size: 18px;" class="text-center">' . $count . '</td>
-                                                                <td style="font-size: 15px;" class="text-center text-uppercase">
-                                                        ' . $title . '
-                                                                </td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($description) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($full_name) . '</td>
-                                                             
-                                                            <td class="text-center">
-                                                                                <a href="edit-task.php?id=' . $id . '" class="edit-btn">Edit</a>
-                                                                                <a href="delete-task.php?id=' . $id . '" class="delete-btn">Delete</a>
-                                                                    
-                                                            
-                                                            </tr>';
-                                                        }
-                                                        ?>
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="completed" role="tabpanel" aria-labelledby="completed-tab" tabindex="0">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="card m-3 overflow-auto" style="border:none;">
-                                    <div class="card-body">
-                                        <div class="row ">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-bordered first">
-                                                    <thead class="bg-light">
-                                                        <tr class="border-0">
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;"></th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">TITLE</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">DESCRIPTION</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ASSIGNED TO</th>
-
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ACTION</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php
-
-                                                        $stmt = $conn->prepare("SELECT * FROM `tasks` WHERE `due_date` = :no_dead");
-                                                        $stmt->execute(['no_dead' => '0000-00-00']);
-                                                        $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                                                        foreach ($tasks as $row) {
-                                                            $id   = $row['id'];
-                                                            $title   = $row['title'];
-                                                            $description     = $row['description'];
-                                                            $assigned_to    = $row['assigned_to'];
-                                                            $due_date   = $row['due_date'];
-
-
-                                                            $stmt_user = $conn->prepare("SELECT * FROM `users` WHERE `id` = :assigned_to");
-                                                            $stmt_user->execute(['assigned_to' => $assigned_to]);
-                                                            $users = $stmt_user->fetch(PDO::FETCH_ASSOC);
-
-                                                            $full_name = $users['full_name'] ?? 'N/A';
-
-                                                            $count++;
-
-                                                            echo '
-                                                            <tr>
-                                                                <td style="font-size: 18px;" class="text-center">' . $count . '</td>
-                                                                <td style="font-size: 15px;" class="text-center text-uppercase">
-                                                        ' . $title . '
-                                                                </td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($description) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($full_name) . '</td>
-                                                             
-                                                            <td class="text-center">
-                                                                                <a href="edit-task.php?id=' . $id . '" class="edit-btn">Edit</a>
-                                                                                <a href="delete-task.php?id=' . $id . '" class="delete-btn">Delete</a>
-                                                                    
-                                                            
-                                                            </tr>';
-                                                        }
-                                                        ?>
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                    </div>
-                </div>
-
-            </section>
+      <form method="POST" action="app/add-user.php">
+        <div class="form-group">
+          <label for="full_name">Full Name</label>
+          <input type="text" id="full_name" name="full_name" placeholder="Full Name" required>
         </div>
 
+        <div class="form-group">
+          <label for="user_name">Username</label>
+          <input type="text" id="user_name" name="user_name" placeholder="Username" required>
+        </div>
 
-    </body>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="text" id="password" name="password" placeholder="Password" required>
+        </div>
 
-    </html>
-<?php
-    include "inc/imports.php";
- } else {
-    $em = "First login";
-    header("Location: login.php?error=$em");
-    exit();
+        <div class="form-group">
+          <label for="role">Role</label>
+          <select name="role" id="role" required>
+            <option selected disabled>Select Role</option>
+            <option value="employee">Employee</option>
+            <option value="doctor">Doctor</option>
+          </select>
+        </div>
+
+        <button type="submit">Add</button>
+      </form>
+
+      <a href="user.php" class="back-link">← Back to Manage Users</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 RB Lirio Medical & Diagnostic Clinic. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>
+<?php 
+} else { 
+  $em = "First login";
+  header("Location: login.php?error=$em");
+  exit();
 }
 ?>

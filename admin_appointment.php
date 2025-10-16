@@ -1,602 +1,332 @@
-<?php
+<?php 
 session_start();
 if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "admin") {
-    include "db_connection.php";
-    include "app/Model/Task.php";
-    include "app/Model/User.php";
-    include "inc/bootstrap.php";
-    $all_appoint = array();
-
-    $count = 0;
-    $all_appoint = '0';
-    $res = mysqli_query($sqli, "SELECT COUNT(*) as total FROM `appointments` ");
-    while ($row = mysqli_fetch_array($res)) {
-        $all_appoint = $row["total"];
-    }
-    $pending = array();
-
-    $count = 0;
-    $pending = '0';
-    $res = mysqli_query($sqli, "SELECT COUNT(*) as total FROM `appointments` where stat = 'pending' ");
-    while ($row = mysqli_fetch_array($res)) {
-        $pending = $row["total"];
-    }
-    $accept = array();
-
-    $count = 0;
-    $accept = '0';
-    $res = mysqli_query($sqli, "SELECT COUNT(*) as total FROM `appointments` where stat =  'accept'");
-    while ($row = mysqli_fetch_array($res)) {
-        $accept = $row["total"];
-    }
-    $completed = array();
-
-    $count = 0;
-    $completed = '0';
-    $res = mysqli_query($sqli, "SELECT COUNT(*) as total FROM `appointments` where stat =  'completed'");
-    while ($row = mysqli_fetch_array($res)) {
-        $completed = $row["total"];
-    }
+  include "db_connection.php";
+  include "app/Model/Task.php";
+  include "app/Model/User.php";
 ?>
-    <!DOCTYPE html>
-    <html>
-
-    <head>
-        <title>All Tasks</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/style.css">
-
-    </head>
-    <style>
-        .nav-link.active .count {
-            color: red;
-            font-size: 20px;
-        }
-
-        .count {
-            font-weight: 600;
-            letter-spacing: 3px;
-            color: #6c757d;
-            /* Bootstrap muted */
-        }
-    </style>
-
-    <body>
-        <input type="checkbox" id="checkbox">
-        <?php include "inc/header.php"; ?>
-        <div class="body">
-            <?php include "inc/nav.php"; ?>
-            <section class="section-1">
-                <div class="card-header" style="background-color:transparent;border:none;">
-                    <ul class="nav nav-pills nav-justified" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab" aria-controls="pending" aria-selected="true">
-                                <br>
-                                <span style="color:black; letter-spacing:3px; " class="font-weight-bold">ALL APPOINTMENT
-                                    <sup class="count"><?php echo $all_appoint; ?></sup>
-                                </span>
-
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="due_today-tab" data-bs-toggle="tab" data-bs-target="#due_today" type="button" role="tab" aria-controls="due_today" aria-selected="true">
-                                <br>
-                                <span style="color:black; letter-spacing:3px;" class="text-uppercase font-weight-bold ">PENDING
-                                    <sup class="count"><?php echo $pending; ?></sup>
-                                </span>
-
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="over_due-tab" data-bs-toggle="tab" data-bs-target="#over_due" type="button" role="tab" aria-controls="over_due" aria-selected="true">
-                                <br>
-                                <span style="color:black; letter-spacing:3px;" class="text-uppercase font-weight-bold ">ACCEPTED
-                                    <sup class="count"><?php echo $accept; ?></sup>
-
-                                </span>
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="completed-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button" role="tab" aria-controls="completed" aria-selected="true">
-                                <br>
-                                <span style="color:black; letter-spacing:3px;" class="text-uppercase font-weight-bold">COMPLETED
-                                    <sup class="count"><?= $completed ?></sup>
-
-                                </span>
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-                <?php if (isset($_GET['success'])) { ?>
-                    <div class="success" role="alert">
-                        <?php echo stripcslashes($_GET['success']); ?>
-                    </div>
-                <?php } ?>
-                <div class="card mt-5">
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="pending" role="tabpanel" aria-labelledby="pending-tab" tabindex="0">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="card m-3 overflow-auto" style="border:none;">
-                                    <div class="card-body">
-                                        <div class="row ">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-bordered first">
-                                                    <thead class="bg-light">
-                                                        <tr class="border-0">
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;"></th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">FULLNAME</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">PURPOSE</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">DATE</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">TIME</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">STATUS</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">SUBMITTED</th>
-
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ACTION</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php
-                                                        $count = 0;
-
-                                                        // 1. Fetch all pending tasks
-                                                        $stmt = $conn->prepare("SELECT * FROM `appointments`");
-                                                        $stmt->execute();
-                                                        $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                                                        foreach ($tasks as $row) {
-                                                            $b_id   = $row['b_id'];
-                                                            $purpose   = $row['purpose'];
-                                                            $fname     = $row['fname'];
-                                                            $lname    = $row['lname'];
-                                                            $date   = $row['date'];
-                                                            $time   = $row['time'];
-                                                            $created   = $row['created'];
-                                                            $status = $row['stat'];
-                                                            $date = date_format(date_create($date), "M/d/Y");
-                                                            $created = date_format(date_create($created), "M/d/Y h:i:a");
-                                                            switch ($status) {
-                                                                case 'pending':
-                                                                    $badgeClass = 'bg-warning';
-
-                                                                    break;
-
-                                                                case 'accept':
-                                                                    $badgeClass = 'bg-primary';
-
-                                                                    break;
-
-                                                                case 'completed':
-                                                                    $badgeClass = 'bg-success';
-                                                                    break;
-
-                                                                default:
-                                                            }
-
-                                                            $full_name = $lname . ', ' . $fname;
-                                                            $count++;
-
-                                                            echo '
-                                                            <tr>
-                                                                <td style="font-size: 18px;" class="text-center">' . $count . '</td>
-                                                                <td style="font-size: 15px;" class="text-center text-uppercase">
-                                                        ' . $full_name . '
-                                                                </td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($purpose) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($date) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($time) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">
-                                                                 <span class="badge rounded-pill text-bg     ' . $badgeClass . ' p-2 text-capitalize" style="letter-spacing:1px; font-size:13px;">' . $status . '</span>
-                                                                </td>
-                                                            <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($created) . '</td>
-
-                                                            <td class="text-center">
-                                                                        ';
-                                                            if ($status == 'pending') {
-                                                                echo '      <button class="btn btn-primary float-right btn-sm m-3" data-bs-toggle="modal" data-bs-target="#assignedDoctor' . $b_id . '">
-                                Assigned Doctor</button>
-                                ';
-                                                            }
-                                                            echo '
-                                </td>
-                                                                    
-                                                            
-                                                            </tr>';
-                                                        }
-                                                        ?>
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="tab-pane" id="due_today" role="tabpanel" aria-labelledby="due_today-tab" tabindex="0">
-
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="card m-3 overflow-auto" style="border:none;">
-                                    <div class="card-body">
-                                        <div class="row ">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-bordered first">
-                                                    <thead class="bg-light">
-                                                        <tr class="border-0">
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;"></th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">FULLNAME</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">PURPOSE</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">DATE</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">TIME</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">STATUS</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">SUBMITTED</th>
-
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ACTION</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php
-                                                        $count = 0;
-
-                                                        // 1. Fetch all pending tasks
-                                                        $stmt = $conn->prepare("SELECT * FROM `appointments` where stat = 'pending'");
-                                                        $stmt->execute();
-                                                        $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                                                        foreach ($tasks as $row) {
-                                                            $id   = $row['b_id'];
-                                                            $purpose   = $row['purpose'];
-                                                            $fname     = $row['fname'];
-                                                            $lname    = $row['lname'];
-                                                            $date   = $row['date'];
-                                                            $time   = $row['time'];
-                                                            $created   = $row['created'];
-                                                            $status = $row['stat'];
-                                                            $date = date_format(date_create($date), "M/d/Y");
-                                                            $created = date_format(date_create($created), "M/d/Y h:i:a");
-                                                            switch ($status) {
-                                                                case 'pending':
-                                                                    $badgeClass = 'bg-warning';
-
-                                                                    break;
-
-                                                                case 'accept':
-                                                                    $badgeClass = 'bg-primary';
-
-                                                                    break;
-
-                                                                case 'completed':
-                                                                    $badgeClass = 'bg-success';
-                                                                    break;
-
-                                                                default:
-                                                            }
-
-                                                            $full_name = $lname . ', ' . $fname;
-                                                            $count++;
-
-                                                            echo '
-                                                            <tr>
-                                                                <td style="font-size: 18px;" class="text-center">' . $count . '</td>
-                                                                <td style="font-size: 15px;" class="text-center text-uppercase">
-                                                        ' . $full_name . '
-                                                                </td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($purpose) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($date) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($time) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">
-                                                                 <span class="badge rounded-pill text-bg     ' . $badgeClass . ' p-2 text-capitalize" style="letter-spacing:1px; font-size:13px;">' . $status . '</span>
-                                                                </td>
-                                                            <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($created) . '</td>
-
-                                                            <td class="text-center">
-                                                                        ';
-                                                            if ($status == 'pending') {
-                                                                echo '      <button class="btn btn-primary float-right btn-sm m-3" data-bs-toggle="modal" data-bs-target="#assignedDoctor' . $id . '">
-                                Assigned Doctor</button>';
-                                                            }
-                                                            echo '
-                                </td>
-                                                                    
-                                                            
-                                                            </tr>';
-                                                        }
-                                                        ?>
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="over_due" role="tabpanel" aria-labelledby="over_due-tab" tabindex="0">
-
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="card m-3 overflow-auto" style="border:none;">
-                                    <div class="card-body">
-                                        <div class="row ">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-bordered first">
-                                                    <thead class="bg-light">
-                                                        <tr class="border-0">
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;"></th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">FULLNAME</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">PURPOSE</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">DATE</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">TIME</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">STATUS</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">SUBMITTED</th>
-
-                                                            <!-- <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ACTION</th> -->
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php
-                                                        $count = 0;
-
-                                                        // 1. Fetch all pending tasks
-                                                        $stmt = $conn->prepare("SELECT * FROM `appointments` where stat = 'accept'");
-                                                        $stmt->execute();
-                                                        $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                                                        foreach ($tasks as $row) {
-                                                            $id   = $row['b_id'];
-                                                            $purpose   = $row['purpose'];
-                                                            $fname     = $row['fname'];
-                                                            $lname    = $row['lname'];
-                                                            $date   = $row['date'];
-                                                            $time   = $row['time'];
-                                                            $created   = $row['created'];
-                                                            $status = $row['stat'];
-                                                            $date = date_format(date_create($date), "M/d/Y");
-                                                            $created = date_format(date_create($created), "M/d/Y h:i:a");
-                                                            switch ($status) {
-                                                                case 'pending':
-                                                                    $badgeClass = 'bg-warning';
-
-                                                                    break;
-
-                                                                case 'accept':
-                                                                    $badgeClass = 'bg-primary';
-
-                                                                    break;
-
-                                                                case 'completed':
-                                                                    $badgeClass = 'bg-success';
-                                                                    break;
-
-                                                                default:
-                                                            }
-
-                                                            $full_name = $lname . ', ' . $fname;
-                                                            $count++;
-
-                                                            echo '
-                                                            <tr>
-                                                                <td style="font-size: 18px;" class="text-center">' . $count . '</td>
-                                                                <td style="font-size: 15px;" class="text-center text-uppercase">
-                                                        ' . $full_name . '
-                                                                </td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($purpose) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($date) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($time) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">
-                                                                 <span class="badge rounded-pill text-bg     ' . $badgeClass . ' p-2 text-capitalize" style="letter-spacing:1px; font-size:13px;">' . $status . '</span>
-                                                                </td>
-                                                            <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($created) . '</td>
-
-                                                           
-                                                                    
-                                                            
-                                                            </tr>';
-                                                        }
-                                                        ?>
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="completed" role="tabpanel" aria-labelledby="completed-tab" tabindex="0">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="card m-3 overflow-auto" style="border:none;">
-                                    <div class="card-body">
-                                        <div class="row ">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-bordered first">
-                                                    <thead class="bg-light">
-                                                        <tr class="border-0">
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;"></th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">FULLNAME</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">PURPOSE</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">DATE</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">TIME</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">STATUS</th>
-                                                            <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">SUBMITTED</th>
-
-                                                            <!-- <th class="border-0 text-center font-weight-bold" style="font-size: 16px; font-family: head;">ACTION</th> -->
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php
-                                                        $count = 0;
-
-                                                        // 1. Fetch all pending tasks
-                                                        $stmt = $conn->prepare("SELECT * FROM `appointments` where stat = 'completed'");
-                                                        $stmt->execute();
-                                                        $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                                                        foreach ($tasks as $row) {
-                                                            $id   = $row['b_id'];
-                                                            $purpose   = $row['purpose'];
-                                                            $fname     = $row['fname'];
-                                                            $lname    = $row['lname'];
-                                                            $date   = $row['date'];
-                                                            $time   = $row['time'];
-                                                            $created   = $row['created'];
-                                                            $status = $row['stat'];
-                                                            $date = date_format(date_create($date), "M/d/Y");
-                                                            $created = date_format(date_create($created), "M/d/Y h:i:a");
-                                                            switch ($status) {
-                                                                case 'pending':
-                                                                    $badgeClass = 'bg-warning';
-
-                                                                    break;
-
-                                                                case 'accept':
-                                                                    $badgeClass = 'bg-primary';
-
-                                                                    break;
-
-                                                                case 'completed':
-                                                                    $badgeClass = 'bg-success';
-                                                                    break;
-
-                                                                default:
-                                                            }
-
-                                                            $full_name = $lname . ', ' . $fname;
-                                                            $count++;
-
-                                                            echo '
-                                                            <tr>
-                                                                <td style="font-size: 18px;" class="text-center">' . $count . '</td>
-                                                                <td style="font-size: 15px;" class="text-center text-uppercase">
-                                                        ' . $full_name . '
-                                                                </td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($purpose) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($date) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($time) . '</td>
-                                                                <td style="font-size: 18px; text-transform:lowercase;" class="text-center">
-                                                                 <span class="badge rounded-pill text-bg     ' . $badgeClass . ' p-2 text-capitalize" style="letter-spacing:1px; font-size:13px;">' . $status . '</span>
-                                                                </td>
-                                                            <td style="font-size: 18px; text-transform:lowercase;" class="text-center">' . htmlspecialchars($created) . '</td>
-
-                                                           
-                                                                    
-                                                            
-                                                            </tr>';
-                                                        }
-                                                        ?>
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                    </div>
-                </div>
-
-            </section>
-        </div>
-        <?php
-
-        $fetch_appointment = "SELECT * FROM `appointments`";
-        $fetch_res = mysqli_query($sqli, $fetch_appointment);
-        while ($res_row = mysqli_fetch_assoc($fetch_res)) {
-            $b_id = $res_row['b_id'];
-        ?>
-            <div class="modal fade" id="assignedDoctor<?php echo $b_id; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="assignedDoctor" aria-hidden="true">
-                <div class="modal-dialog  modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Assigned Doctor</h5>
-                        </div>
-                        <div class="modal-body">
-                            <form class="row g-3" id="assignedForm">
-                                <div class="col-md-12">
-                                    <label for="color" class="form-label">Assigned Doctor<sup class="text-danger">*</sup>:</label>
-                                    <select name="doc" id="doc" class="form-select" required>
-                                        <option disabled selected>Select Doctor</option>
-                                        <?php
-                                        $fetch_update = "SELECT * FROM users where `role` = 'doctor' ";
-                                        $result = mysqli_query($sqli, $fetch_update);
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                            $full_name = $row['full_name'];
-                                            $id = $row['id'];
-
-
-
-                                            echo '
-                                     <option value=' . $id . ' class="text-uppercase">' . $full_name . '</option>
-                                  ';
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                                <input type="hidden" name="b_id" value="<?php echo $b_id; ?>">
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save</button>
-                                </div>
-                            </form>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-    </body>
-
-    </html>
-<?php
-        }
-        include "inc/imports.php";
-?>
-<script>
-    $(document).on('submit', '#assignedForm', function(e) {
-        e.preventDefault();
-        var formData = new FormData(this);
-        formData.append("assigned", true);
-        $.ajax({
-            url: "app/appointment.php",
-            type: "post",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(data) {
-                var res = jQuery.parseJSON(data);
-                if (res.status == 401) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Something Went Wrong.',
-                        text: res.msg,
-                        timer: 10000
-                    })
-                } else if (res.status == 201) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'SUCCESS',
-                        text: res.msg,
-                        timer: 2000
-                    }).then(function() {
-                        location.reload();
-                    });
-                }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manage Appointments - RB Lirio Medical & Diagnostic Clinic</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Times New Roman', serif;
+    }
+
+    body {
+      background: url('img/bg.jpg') no-repeat center center/cover;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header nav {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 10px 0;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-weight: bold;
+      margin-left: 20px;
+      color: white;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+      justify-content: flex-end;
+      margin-right: 20px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .nav-links a:hover,
+    .nav-links .active {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Container */
+    .container {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 40px 20px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    /* Nav + content side by side on bigger screens */
+    <?php /* If inc/nav.php uses something with class .nav-sidebar or similar, else adjust as needed */ ?>
+
+    .content-box {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      padding: 30px 40px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 1000px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      color: #2d2c2c;
+      overflow-x: auto;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      color: #2d2c2c;
+    }
+
+    /* Tabs container */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    /* Tab buttons */
+    .tab-btn {
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 0.5em 1.2em;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-weight: bold;
+      font-size: 1rem;
+      white-space: nowrap;
+      min-width: 120px;
+      text-align: center;
+      flex: 1 1 auto;
+      max-width: 200px;
+    }
+
+    .tab-btn:hover,
+    .tab-btn.active {
+      background: #4CAF50;
+      color: white;
+    }
+
+    /* Table styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      min-width: 700px; /* prevent too much shrinking */
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background: #f2f2f2;
+      font-weight: bold;
+    }
+
+    tr:hover {
+      background: #f9f9f9;
+    }
+
+    /* Status badges */
+    .badge {
+      border-radius: 8px;
+      padding: 5px 10px;
+      color: white;
+      font-size: 0.9rem;
+      display: inline-block;
+      min-width: 70px;
+    }
+
+    .bg-warning { background: #ffc107; color: black; }
+    .bg-primary { background: #007bff; }
+    .bg-success { background: #28a745; }
+    .bg-secondary { background: #6c757d; }
+
+    /* Edit button */
+    .edit-btn {
+      background: #4CAF50;
+      border: none;
+      padding: 0.5em 1em;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      text-decoration: none;
+      font-size: 1rem;
+      white-space: nowrap;
+      min-width: 120px;
+      display: inline-block;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .edit-btn:hover {
+      background: #45a049;
+    }
+
+    footer {
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      text-align: center;
+      padding: 10px 0;
+      width: 100%;
+      font-size: 14px;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 900px) {
+      .content-box {
+        padding: 20px 25px;
+      }
+      table {
+        min-width: 600px;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .tabs {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .tab-btn {
+        max-width: 100%;
+        width: 100%;
+        min-width: auto;
+        margin-bottom: 10px;
+      }
+
+      .edit-btn {
+        width: 100%;
+        min-width: auto;
+        font-size: 1.1rem;
+        margin-top: 5px;
+      }
+
+      table {
+        min-width: 100%;
+        font-size: 0.9rem;
+      }
+
+      th, td {
+        padding: 8px 5px;
+      }
+
+      /* Allow container padding */
+      .container {
+        padding: 20px 15px;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <?php include "inc/header.php"; ?>
+
+  <div class="container">
+    <?php include "inc/nav.php"; ?>
+
+    <div class="content-box">
+      <h2>Manage Appointments</h2>
+
+      <div class="tabs">
+        <button class="tab-btn active">All (<?= $all_appoint ?? 0; ?>)</button>
+        <button class="tab-btn">Pending (<?= $pending ?? 0; ?>)</button>
+        <button class="tab-btn">Accepted (<?= $accept ?? 0; ?>)</button>
+        <button class="tab-btn">Completed (<?= $completed ?? 0; ?>)</button>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Full Name</th>
+            <th>Purpose</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Submitted</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+          $count = 0;
+          $stmt = $conn->prepare("SELECT * FROM appointments");
+          $stmt->execute();
+          $appointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+          foreach ($appointments as $row) {
+            $count++;
+            $full_name = htmlspecialchars($row['lname'] . ', ' . $row['fname']);
+            $status = $row['stat'];
+            switch ($status) {
+              case 'pending': $badgeClass = 'bg-warning'; break;
+              case 'accept': $badgeClass = 'bg-primary'; break;
+              case 'completed': $badgeClass = 'bg-success'; break;
+              default: $badgeClass = 'bg-secondary';
             }
 
-        });
+            echo "
+            <tr>
+              <td>{$count}</td>
+              <td>{$full_name}</td>
+              <td>" . htmlspecialchars($row['purpose']) . "</td>
+              <td>" . htmlspecialchars($row['date']) . "</td>
+              <td>" . htmlspecialchars($row['time']) . "</td>
+              <td><span class='badge {$badgeClass}'>" . htmlspecialchars($status) . "</span></td>
+              <td>" . htmlspecialchars($row['created']) . "</td>
+              <td>";
+                if ($status == 'pending') {
+                  echo "<button class='edit-btn' data-bs-toggle='modal' data-bs-target='#assignedDoctor{$row['b_id']}'>Assign Doctor</button>";
+                } else {
+                  echo "-";
+                }
+            echo "</td></tr>";
+          }
+          ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-    });
-</script>
-<?php
-} else {
-    $em = "First login";
-    header("Location: login.php?error=$em");
-    exit();
+  <footer>
+    <p>© 2025 RB Lirio Medical & Diagnostic Clinic. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>
+<?php 
+} else { 
+  $em = "First login";
+  header("Location: login.php?error=$em");
+  exit();
 }
 ?>

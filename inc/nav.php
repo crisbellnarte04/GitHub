@@ -92,7 +92,7 @@
             <a href="admin_appointment.php"><li><i class="fa fa-calendar"></i><span>Appointments</span></li></a>
             <a href="logout.php"><li><i class="fa fa-sign-out"></i><span>Logout</span></li></a>
         <?php } else if($_SESSION['role'] == "doctor"){ ?>
-            <a href="index.php"><li><i class="fa fa-tachometer"></i><span>Dashboard</span></li></a>
+            <a href="manipage_doc.php"><li><i class="fa fa-tachometer"></i><span>Dashboard</span></li></a>
             <a href="doc_appointment.php"><li><i class="fa fa-calendar-check-o"></i><span>Appointments</span></li></a>
             <a href="doc_availability.php"><li><i class="fa fa-calendar"></i><span>My Schedule</span></li></a>
             <a href="logout.php"><li><i class="fa fa-sign-out"></i><span>Logout</span></li></a>

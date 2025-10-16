@@ -1,202 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Terms and Conditions - RB LIRIO MEDICAL CLINIC</title>
-    <style>
-        /* General body settings */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    background-image: url('img/bg.jpg') no-repeat center center fixed;
-    color: #333;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Terms and Conditions - RB LIRIO MEDICAL CLINIC</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Times New Roman', serif;
+    }
 
-/* Container for the content */
-.container {
-    width: 80%;
-    margin: 20px auto;
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
+    body {
+      background: url('img/bg.jpg') center/cover no-repeat fixed;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      color: #222;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
 
-/* Heading styles */
-h1 {
-    font-size: 2.5em;
-    color: #2c3e50;
-    text-align: center;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-}
+    .back-btn {
+      align-self: flex-start;
+      margin: 25px 0 0 25px;
+      background: rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: #1a237e;
+      font-size: 16px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
 
-h2 {
-    font-size: 1.8em;
-    color: #593ae2;
-    margin-top: 1.5em;
-    margin-bottom: 1em;
-}
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.45);
+      color: #000;
+    }
 
-/* Paragraph styles */
-p {
-    font-size: 1.1em;
-    margin-bottom: 1.2em;
-    color: #555;
-}
-
-/* Terms list styling */
-.terms-list {
-    margin-left: 20px;
-    font-size: 1.1em;
-    color: #444;
-}
-
-.terms-list li {
-    margin-bottom: 12px;
-}
-
-/* Links */
-a {
-    color: #16a085;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-/* Footer section */
-.footer {
-    text-align: center;
-    font-size: 0.9em;
-    color: #777;
-    margin-top: 3em;
-    background-color: #f1f1f1;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.back-btn {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  color: #3d48e8;
-  font-size: 16px;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-  margin-bottom: 20px;
-  float: left; /* optional: makes it align to the left */
-}
-
-.back-btn:hover {
-  background: rgba(255, 255, 255, 0.4);
-  color: #000;
-}
-
-/* For mobile responsiveness */
-@media (max-width: 768px) {
     .container {
-        width: 90%;
-        padding: 20px;
+      width: 85%;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+      color: #111;
     }
 
     h1 {
-        font-size: 2em;
+      text-align: center;
+      font-size: 2.3em;
+      color: #000;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     h2 {
-        font-size: 1.5em;
+      font-size: 1.4em;
+      color: #2b2bb2;
+      margin-top: 1.5em;
+      margin-bottom: 0.6em;
     }
 
-    p {
-        font-size: 1em;
+    p, li {
+      font-size: 1rem;
+      color: #333;
+      line-height: 1.6;
+      margin-bottom: 1em;
+    }
+
+    .terms-list {
+      margin-left: 25px;
+      list-style-type: disc;
+    }
+
+    a {
+      color: #2b2bb2;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
 
     .footer {
-        font-size: 0.8em;
+      text-align: center;
+      font-size: 0.85em;
+      color: white;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 0 0 10px 10px;
+      padding: 12px;
+      margin-top: 30px;
+      backdrop-filter: blur(5px);
     }
-}
-    </style>
+    
+    @media (max-width: 768px) {
+      .container {
+        width: 90%;
+        padding: 25px;
+      }
+
+      h1 {
+        font-size: 1.8em;
+      }
+
+      h2 {
+        font-size: 1.2em;
+      }
+
+      p, li {
+        font-size: 0.95em;
+      }
+    }
+  </style>
 </head>
 <body>
- <button class="back-btn" onclick="goBack()">← Back</button>
-    <div class="container">
-        <h1>Terms and Conditions</h1>
+  <button class="back-btn" onclick="goBack()">← Back</button>
 
-        <p>Welcome to RB LIRIO MEDICAL CLINIC!</p>
+  <div class="container">
+    <h1>Terms and Conditions</h1>
 
-        <p>These Terms and Conditions (“Terms”, “Terms of Service”) govern your use of our website located at rblirio.com (the “Service”) operated by RB LIRIO (“us”, “we”, or “our”).</p>
+    <p>Welcome to RB LIRIO MEDICAL CLINIC!</p>
+    <p>These Terms and Conditions (“Terms”, “Terms of Service”) govern your use of our website located at rblirio.com (the “Service”) operated by RB LIRIO (“us”, “we”, or “our”).</p>
 
-        <p>By accessing or using the Service, you agree to comply with and be bound by these Terms. If you disagree with any part of the terms, then you may not access the Service.</p>
+    <h2>1. Acceptance of Terms</h2>
+    <p>By accessing or using rblirio.com, you agree to abide by these Terms and all applicable laws and regulations.</p>
 
-        <h2>1. Acceptance of Terms</h2>
-        <p>By accessing or using rblirio.com, you agree to abide by these Terms and all applicable laws and regulations. If you do not agree to these Terms, you must immediately stop using our website.</p>
+    <h2>2. Changes to Terms</h2>
+    <p>We reserve the right to modify or replace these Terms at any time. It is your responsibility to check this page periodically for changes.</p>
 
-        <h2>2. Changes to Terms</h2>
-        <p>We reserve the right to modify or replace these Terms at any time. It is your responsibility to check this page periodically for changes. Your continued use of the Service after any modifications to the Terms constitutes your acceptance of the new Terms.</p>
+    <h2>3. User Responsibilities</h2>
+    <ul class="terms-list">
+      <li>You agree to use the Service in accordance with all applicable laws.</li>
+      <li>You must not harm or disrupt the website or interfere with others’ use.</li>
+      <li>You may not access data or materials that you are not authorized to view.</li>
+    </ul>
 
-        <h2>3. User Responsibilities</h2>
-        <ul class="terms-list">
-            <li>You agree to use the Service in accordance with all applicable laws and regulations.</li>
-            <li>You must not engage in any activity that could harm, disable, or overburden the website or interfere with any other party’s use of the website.</li>
-            <li>You agree not to misuse or attempt to misuse any part of the Service or access content, data, or materials that are not authorized.</li>
-        </ul>
+    <h2>4. Account Registration</h2>
+    <p>If our Service requires an account, you agree to provide accurate and current information and maintain confidentiality of your credentials.</p>
 
-        <h2>4. Account Registration</h2>
-        <p>If any part of our Service requires you to create an account, you agree to provide accurate, current, and complete information during the registration process and to update your information as needed. You are responsible for maintaining the confidentiality of your account and password and agree to notify us immediately of any unauthorized use of your account.</p>
+    <h2>5. Intellectual Property Rights</h2>
+    <ul class="terms-list">
+      <li>All design, logos, and content are owned by RB Lirio or its licensors.</li>
+      <li>You may not reproduce or distribute any materials without written consent.</li>
+    </ul>
 
-        <h2>5. Intellectual Property Rights</h2>
-        <ul class="terms-list">
-            <li>The content, design, graphics, logos, and trademarks on this website are owned by [Your Company Name] or its licensors.</li>
-            <li>You are not permitted to use, reproduce, or distribute any content from this website without prior written consent from us.</li>
-        </ul>
+    <h2>6. Privacy Policy</h2>
+    <p>Your use of the Service is also governed by our <a href="privacy_policy.html">Privacy Policy</a>.</p>
 
-        <h2>6. Privacy Policy</h2>
-        <p>Your use of the Service is also governed by our <a href="privacy_policy.html">Privacy Policy</a>, which can be found at [link to privacy policy]. By using the Service, you agree to the collection and use of information as outlined in the Privacy Policy.</p>
+    <h2>7. Third-Party Links</h2>
+    <p>Our website may include links to other sites. We are not responsible for their content or privacy practices.</p>
 
-        <h2>7. Third-Party Links</h2>
-        <p>Our Service may contain links to third-party websites or services that are not owned or controlled by RB LIRIO. We do not assume responsibility for the content, privacy policies, or practices of any third-party sites or services. You acknowledge and agree that we are not liable for any loss or damage caused by your use of any third-party website.</p>
+    <h2>8. Termination</h2>
+    <p>We may terminate your access for violations of these Terms.</p>
 
-        <h2>8. Termination</h2>
-        <p>We may suspend or terminate your access to the Service at any time, without prior notice, for any reason, including but not limited to a breach of these Terms. Upon termination, all rights granted to you under these Terms will immediately cease, and you must stop using the Service.</p>
+    <h2>9. Limitation of Liability</h2>
+    <p>RB LIRIO is not liable for indirect or consequential damages arising from use of the Service.</p>
 
-        <h2>9. Limitation of Liability</h2>
-        <p>To the fullest extent permitted by law, RB LIRIO shall not be liable for any indirect, incidental, special, or consequential damages, or any loss of data, profits, or revenues, whether in an action of contract, negligence, or other tortious action, arising out of or in connection with your use or inability to use the Service.</p>
+    <h2>10. Contact Information</h2>
+    <ul class="terms-list">
+      <li>Email: <a href="mailto:info@rblirio.com">info@rblirio.com</a></li>
+      <li>Address: Brgy. Mayapa, Calamba City, Laguna</li>
+      <li>Phone: 8-7000</li>
+    </ul>
 
-        <h2>10. Indemnification</h2>
-        <p>You agree to indemnify, defend, and hold harmless RB LIRIO, its affiliates, and its employees from any claim, demand, liability, damage, loss, or expense (including legal fees) arising out of your violation of these Terms or your use of the Service.</p>
-
-        <h2>11. Governing Law</h2>
-        <p>These Terms shall be governed and construed in accordance with the laws of Calamba City, Laguna, Philippines, without regard to its conflict of law principles. Any dispute arising under these Terms shall be subject to the exclusive jurisdiction of the courts in [Your Jurisdiction].</p>
-
-        <h2>12. Severability</h2>
-        <p>If any provision of these Terms is found to be unlawful, void, or unenforceable, the remaining provisions shall remain in full force and effect.</p>
-
-        <h2>13. Contact Information</h2>
-        <p>If you have any questions about these Terms, please contact us at:</p>
-        <ul class="terms-list">
-            <li>Email: <a href="mailto:">[Your Email Address]</a></li>
-            <li>Address: Brgy. Mayapa, Calamba City, Laguna</li>
-            <li>Phone: 8-7000</li>
-        </ul>
-
-        <div class="footer">
-            <p>Disclaimer: This template is a general guide and should not be considered as legal advice. It's recommended to consult with a legal professional to ensure your Terms and Conditions meet the specific needs and requirements of your business.</p>
-        </div>
+    <div class="footer">
+      <p>© 2025 RB Lirio Medical & Diagnostic Clinic. All Rights Reserved.</p>
     </div>
-<script>
-  function goBack() {
-    window.history.back();
-  }
-</script>
+  </div>
 
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
 </body>
 </html>

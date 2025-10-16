@@ -1,7 +1,6 @@
-<?php
-session_start();
-include 'db_connection.php';
-include 'inc/bootstrap.php';
+<?php session_start(); 
+include 'db_connection.php'; 
+include 'inc/bootstrap.php'; 
 $user_id = $_SESSION["id"];
 ?>
 <!DOCTYPE html>
